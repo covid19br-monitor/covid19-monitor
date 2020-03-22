@@ -105,7 +105,7 @@ const data = [
   },
   {
     id: 8,
-    name: "Espirito Santo",
+    name: "Espírito Santo",
     capital: "Vitória",
     confirmed: 26,
     deaths: 0,

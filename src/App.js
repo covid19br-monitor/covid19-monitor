@@ -8,6 +8,7 @@ import {
 } from '../src/components/Charts';
 import { GlobalStyle } from '../src/components/GlobalStyle';
 import DataPanel from '../src/components/DataPanel';
+import Nav from "../src/components/Nav";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
       <main>
         <DataPanel />
         <section>
+          <Nav />
           <Router>
             <MapChart path="/" />
             <ConfirmedChart path="/contagios" />

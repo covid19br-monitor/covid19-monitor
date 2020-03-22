@@ -13,13 +13,12 @@
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
-    "react-map-gl": "^5.2.3",
     "react-scripts": "3.4.0",
     "styled-components": "^5.0.1",
     "topojson": "^3.0.2"
   },
   "scripts": {
-    "start": "REACT_APP_MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoiamNhbG1laWRhIiwiYSI6ImNrNGxmM3hrMTF6aWUzbXF3bXdxZ3Nha2EifQ.fNqpAIi66zARNewv4vB-dw react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
