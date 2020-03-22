@@ -338,7 +338,7 @@ const data = [
     }
   },
   {
-    id: 25,
+    id: 26,
     name: "Alagoas",
     capital: "Maceió",
     confirmed: 7,

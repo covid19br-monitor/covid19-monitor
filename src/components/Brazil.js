@@ -24,7 +24,7 @@ export default function Brazil() {
     <>
       <p>
         <small>
-          Última atualização: 21.03 | Fonte:{" "}
+          Última atualização: 21/03 | Fonte:{" "}
           <a
             target="_blank"
             rel="noopener noreferrer"
