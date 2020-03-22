@@ -1,6 +1,6 @@
 import React from "react";
 import Stats from "../components/Stats";
-import Ecuador from "../components/Ecuador";
+import Brazil from "../components/Brazil";
 import Heading from "../components/Heading";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -18,11 +18,11 @@ export default function DataPanel() {
       <div>
         <h2>
           Brasil{" "}
-          <span role="img" aria-label="Ecuador Flag">
+          <span role="img" aria-label="Brazil Flag">
             🇧🇷
           </span>
         </h2>
-        <Ecuador />
+        <Brazil />
       </div>
       <Footer />
     </section>

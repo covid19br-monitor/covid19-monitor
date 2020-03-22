@@ -5,7 +5,19 @@ export default function Footer() {
   var year = today.getFullYear();
   return (
     <footer>
-      <a href="https://www.twitter.com/glauberamos">
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.twitter.com/_juanmnl"
+      >
+        &copy;{year} - juanmnl
+      </a>
+      <br />
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://www.twitter.com/glauberamos"
+      >
         &copy;{year} - glauberamos
       </a>
     </footer>

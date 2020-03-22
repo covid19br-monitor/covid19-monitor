@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactMapGL, { Marker } from "react-map-gl";
-import data from "../db/EcuadorData";
+import data from "../db/BrazilData";
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;

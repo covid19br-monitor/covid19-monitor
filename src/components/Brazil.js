@@ -1,22 +1,16 @@
 import React from "react";
-import data from "../db/EcuadorData";
-import {
-  StatGrid,
-  StatBlock,
-  TwoCols,
-  Row,
-  Separator
-} from "../components/StyledStats";
+import data from "../db/BrazilData";
+import { StatGrid, StatBlock, TwoCols, Row, Separator } from "./StyledStats";
 
-export default function Ecuador() {
+export default function Brazil() {
   const provinces = data;
   const sortedProvinces = provinces.sort((a, b) => {
     return b.confirmed - a.confirmed;
   });
 
   const dataTotals = {
-    confirmed: 532,
-    deaths: 7,
+    confirmed: 1178,
+    deaths: 18,
     surveillance: 1213,
     suspicious: 870,
     negatives: 649,
@@ -30,8 +24,14 @@ export default function Ecuador() {
     <>
       <p>
         <small>
-          Última actualización: 21.03 | 18:00 | Fuente:{" "}
-          <a href="https://twitter.com/Riesgos_Ec">RIESGOS EC</a>
+          Última atualização: 21.03 | Fonte:{" "}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://g1.globo.com/bemestar/coronavirus/noticia/2020/03/21/casos-de-coronavirus-no-brasil-em-21-de-marco.ghtml"
+          >
+            Globo
+          </a>
         </small>
       </p>
       <StatGrid>
@@ -69,7 +69,7 @@ export default function Ecuador() {
         </StatBlock>
       </StatGrid>
       <br />
-      <h4>Provincias / Confirmados</h4>
+      <h4>Estados / Confirmados</h4>
       <br />
       <TwoCols>
         {sortedProvinces.map(province => (

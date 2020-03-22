@@ -51,7 +51,7 @@ export default function Nav() {
         Mapa
       </Link>
       <Link to="contagios-provincia" getProps={isActive}>
-        X Provincia
+        X Estados
       </Link>
       <Link to="contagios" getProps={isActive}>
         X Dia

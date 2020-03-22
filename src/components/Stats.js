@@ -11,7 +11,7 @@ export default function Stats({ url }) {
     <>
       <p>
         <small>
-          Última actualización: <em>{stats.lastUpdate}</em>
+          Última atualização: <em>{stats.lastUpdate}</em>
         </small>
       </p>
       <StatGrid>
