@@ -7,11 +7,13 @@ const isActive = ({ isCurrent }) => {
 };
 
 const Navigation = styled.nav`
-  background-color: hsla(164, 23%, 10%, 1);
-  margin: 0.5rem 0;
   padding: 0.2rem 0.3rem;
   border-radius: 2px;
-  text-align: right;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
 
   > a {
     display: inline-block;
@@ -20,7 +22,7 @@ const Navigation = styled.nav`
     font-size: 0.8rem;
     line-height: 1.6rem;
     text-transform: uppercase;
-    margin-left: 0.4rem;
+    margin-right: 0.4rem;
     text-decoration: none;
     background-color: transparent;
     transition: 280ms background-color ease-in-out;

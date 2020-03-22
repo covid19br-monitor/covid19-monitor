@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const StatGrid = styled.section`
   display: flex;
   flex-wrap: wrap;
+  margin-top: 1em;
 
   @media (max-width: 960px) {
     flex-direction: column;
@@ -13,14 +14,7 @@ export const StatBlock = styled.article`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: 0.6rem 0.8rem;
-  box-shadow: 0 1px 3px hsla(163, 72%, 0%, 0.5),
-    0 -1px 0 hsla(163, 72%, 48%, 0.7);
-  border-radius: 2px;
-  transition: box-shadow 150ms ease-in;
-  text-align: right;
   transition: all 200ms ease-out;
-  margin: 0.3rem;
 
   > h3 {
     font-size: 0.6rem;
@@ -34,12 +28,6 @@ export const StatBlock = styled.article`
     font-size: 1.4rem;
     flex: 2;
     font-weight: 900;
-  }
-
-  :hover {
-    color: var(--color-background);
-    background-color: hsla(163, 72%, 48%, 0.9);
-    transition: all 300ms ease-in;
   }
 
   @media (max-width: 960px) {

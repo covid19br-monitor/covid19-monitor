@@ -2,11 +2,11 @@ import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   :root {
-    --color-primary: hsla(163, 72%, 48%, 1.0);
-    --color-secondary: hsla(50, 100%, 64%, 1.0);
+    --color-primary: #f2f2f2;
+    --color-secondary: #fff;
     --color-warning: hsla(25, 100%, 67%, 1.0);
     --color-danger: hsla(0, 100%, 67%, 1.0);
-    --color-background: hsla(164, 23%, 13%, 1.0);
+    --color-background: #222;
   }
 
   * {
@@ -84,9 +84,6 @@ export const GlobalStyle = createGlobalStyle`
     height: 100vh;
     display: flex;
 
-    padding: .5rem;
-    border: 4px solid var(--color-primary);
-
     @media(max-width: 960px) {
       padding: 0;
     }
@@ -96,19 +93,19 @@ export const GlobalStyle = createGlobalStyle`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1rem;
-      border: 2px solid var(--color-primary);
+      padding: 2rem;
+      box-sizing: border-box;
       flex: 1;
-      margin: .5rem;
       animation: turn-on .4s linear;
       animation-fill-mode: forwards;
 
       :first-of-type {
         overflow-y: scroll;
+        background: rgba(000,000,000,0.1);
       }
 
       :last-of-type {
-        padding: 0;
+        padding: 4rem 0 0;
         overflow: hidden;
         
         > div {
@@ -141,6 +138,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     footer {
+      margin-top: 4rem;
       padding-bottom: 2rem;
     }
 
