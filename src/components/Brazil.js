@@ -14,7 +14,7 @@ export default function Brazil() {
     surveillance: 1213,
     suspicious: 870,
     negatives: 649,
-    recoveries: 3,
+    recoveries: 2,
     tests: 2051
   };
 
@@ -44,28 +44,8 @@ export default function Brazil() {
           <h3>Mortos</h3>
         </StatBlock>
         <StatBlock>
-          <p>{dataTotals.surveillance}</p>
-          <h3>Cerco</h3>
-        </StatBlock>
-        <StatBlock>
-          <p>{dataTotals.suspicious}</p>
-          <h3>Suspeitos</h3>
-        </StatBlock>
-        <StatBlock>
-          <p>{dataTotals.negatives}</p>
-          <h3>Descartados</h3>
-        </StatBlock>
-        <StatBlock>
           <p>{dataTotals.recoveries}</p>
           <h3>Recuperados</h3>
-        </StatBlock>
-        <StatBlock>
-          <p>{dataTotals.tests}</p>
-          <h3>Testes</h3>
-        </StatBlock>
-        <StatBlock>
-          <p>{result.toFixed(2)}% </p>
-          <h3>Positivos : Testes</h3>
         </StatBlock>
       </StatGrid>
       <br />

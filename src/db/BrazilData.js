@@ -156,7 +156,7 @@ const data = [
     }
   },
   {
-    id: 19,
+    id: 12,
     name: "Maranhão",
     capital: "São Luís",
     confirmed: 2,
@@ -335,6 +335,19 @@ const data = [
     coord: {
       lat: -10.5741,
       lng: -37.3857
+    }
+  },
+  {
+    id: 25,
+    name: "Alagoas",
+    capital: "Maceió",
+    confirmed: 7,
+    deaths: 0,
+    compromised: 0,
+    status: null,
+    coord: {
+      lat: -9.5713,
+      lng: -36.782
     }
   }
 ];
