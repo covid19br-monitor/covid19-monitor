@@ -50,6 +50,7 @@ export default function Map({ lat, lng, z }) {
               viewBox={point.status === "alert" ? "0 0 100 100" : "0 0 40 40"}
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              style={{transform: 'translate(-50%, -50%)'}}
             >
               <circle
                 cx={point.status === "alert" ? "50" : "20"}

@@ -8,8 +8,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -30.03,
-      lng: -51.21
+      lat: -30,
+      lng: -53.6
     }
   },
   {
@@ -21,8 +21,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -9.02,
-      lng: -70.81
+      lat: -9.1,
+      lng: -70.3
     }
   },
   {
@@ -34,8 +34,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -0.9,
-      lng: -53.0
+      lat: 1.6,
+      lng: -52.3
     }
   },
   {
@@ -47,8 +47,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -3.41,
-      lng: -65.85
+      lat: -3.8,
+      lng: -64.95
     }
   },
   {
@@ -60,8 +60,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -12.57,
-      lng: -41.7
+      lat: -13.5,
+      lng: -41.9
     }
   },
   {
@@ -73,8 +73,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -25.25,
-      lng: -52.02
+      lat: -24.6,
+      lng: -51.2
     }
   },
   {
@@ -86,21 +86,21 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -5.49,
-      lng: -39.32
+      lat: -5.27,
+      lng: -39.29
     }
   },
   {
     id: 7,
-    name: "Destrito Federal",
+    name: "Distrito Federal",
     capital: "Brasília",
     confirmed: 108,
     deaths: 0,
     compromised: 0,
     status: "alert",
     coord: {
-      lat: -15.82,
-      lng: -47.92
+      lat: -15.77,
+      lng: -47.79
     }
   },
   {
@@ -125,8 +125,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -15.82,
-      lng: -49.83
+      lat: -15.97,
+      lng: -49.57
     }
   },
   {
@@ -138,8 +138,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -7.24,
-      lng: -36.78
+      lat: -7.16,
+      lng: -36.72
     }
   },
   {
@@ -151,8 +151,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -18.51,
-      lng: -44.55
+      lat: -18.63,
+      lng: -45.45
     }
   },
   {
@@ -164,8 +164,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -4.96,
-      lng: -45.27
+      lat: -5.62,
+      lng: -45.24
     }
   },
   {
@@ -177,8 +177,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -12.68,
-      lng: -56.92
+      lat: -12.75,
+      lng: -55.92
     }
   },
   {
@@ -190,8 +190,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -20.77,
-      lng: -54.78
+      lat: -20.65,
+      lng: -54.54
     }
   },
   {
@@ -203,8 +203,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -1.9981,
-      lng: -54.9306
+      lat: -3.63,
+      lng: -52.45
     }
   },
   {
@@ -216,8 +216,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -8.8137,
-      lng: -36.9541
+      lat: -8.61,
+      lng: -36.82
     }
   },
   {
@@ -229,8 +229,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -7.7183,
-      lng: -42.7289
+      lat: -7.2,
+      lng: -42.18
     }
   },
   {
@@ -242,8 +242,8 @@ const data = [
     compromised: 0,
     status: "alert",
     coord: {
-      lat: -22.9099,
-      lng: -43.2095
+      lat: -22.12,
+      lng: -42.87
     }
   },
   {
@@ -255,8 +255,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -5.79448,
-      lng: -35.211
+      lat: -5.88,
+      lng: -36.72
     }
   },
   {
@@ -268,8 +268,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -11.5057,
-      lng: -63.5806
+      lat: -10.84,
+      lng: -63.29
     }
   },
   {
@@ -281,8 +281,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -2.7376,
-      lng: -62.0751
+      lat: 1.84,
+      lng: -61.3
     }
   },
   {
@@ -307,8 +307,8 @@ const data = [
     compromised: 0,
     status: "alert",
     coord: {
-      lat: -23.5432,
-      lng: -46.6292
+      lat: -22.6,
+      lng: -48.63
     }
   },
   {
@@ -320,8 +320,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -10.1753,
-      lng: -48.2982
+      lat: -9.34,
+      lng: -48.21
     }
   },
   {
@@ -333,8 +333,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -10.5741,
-      lng: -37.3857
+      lat: -10.54,
+      lng: -37.27
     }
   },
   {
@@ -346,8 +346,8 @@ const data = [
     compromised: 0,
     status: null,
     coord: {
-      lat: -9.5713,
-      lng: -36.782
+      lat: -9.69,
+      lng: -36.64
     }
   }
 ];
