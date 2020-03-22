@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ReactMapGL, { Marker } from "react-map-gl";
+import ReactMapGL, { Source, Layer, Marker } from "react-map-gl";
 import data from "../db/BrazilData";
 
 // Set your mapbox access token here
@@ -22,19 +22,19 @@ export default function Map({ lat, lng, z }) {
   const [viewport, setViewport] = useState({
     latitude: lat,
     longitude: lng,
-    zoom: z
+    zoom: z,
+    bearing: 0,
+    pitch: 0
   });
 
   return (
     <ReactMapGL
-      dragPan={true}
-      scrollZoom={false}
+      {...viewport}
       width="100%"
       height="100%"
       mapStyle="mapbox://styles/juanmnl/ck7spea0200we1inzkgusnusr"
-      mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-      {...viewport}
       onViewportChange={setViewport}
+      mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
     >
       {confirmedProvinces.map(point => {
         return (
@@ -45,8 +45,8 @@ export default function Map({ lat, lng, z }) {
           >
             <svg
               className="on"
-              width={point.status === "alert" ? "100" : "40"}
-              height={point.status === "alert" ? "100" : "40"}
+              width={point.status === "alert" ? "80" : "40"}
+              height={point.status === "alert" ? "80" : "40"}
               viewBox={point.status === "alert" ? "0 0 100 100" : "0 0 40 40"}
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
