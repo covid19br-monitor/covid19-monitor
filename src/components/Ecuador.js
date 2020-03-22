@@ -1,12 +1,12 @@
-import React from 'react';
-import data from '../db/EcuadorData';
+import React from "react";
+import data from "../db/EcuadorData";
 import {
   StatGrid,
   StatBlock,
   TwoCols,
   Row,
   Separator
-} from '../components/StyledStats';
+} from "../components/StyledStats";
 
 export default function Ecuador() {
   const provinces = data;
@@ -30,7 +30,7 @@ export default function Ecuador() {
     <>
       <p>
         <small>
-          Última actualización: 21.03 | 18:00 | Fuente:{' '}
+          Última actualización: 21.03 | 18:00 | Fuente:{" "}
           <a href="https://twitter.com/Riesgos_Ec">RIESGOS EC</a>
         </small>
       </p>
@@ -41,7 +41,7 @@ export default function Ecuador() {
         </StatBlock>
         <StatBlock className="danger">
           <p>{dataTotals.deaths}</p>
-          <h3>Decesos</h3>
+          <h3>Mortos</h3>
         </StatBlock>
         <StatBlock>
           <p>{dataTotals.surveillance}</p>
@@ -49,7 +49,7 @@ export default function Ecuador() {
         </StatBlock>
         <StatBlock>
           <p>{dataTotals.suspicious}</p>
-          <h3>Sospecha</h3>
+          <h3>Suspeitos</h3>
         </StatBlock>
         <StatBlock>
           <p>{dataTotals.negatives}</p>
@@ -61,11 +61,11 @@ export default function Ecuador() {
         </StatBlock>
         <StatBlock>
           <p>{dataTotals.tests}</p>
-          <h3>Pruebas</h3>
+          <h3>Testes</h3>
         </StatBlock>
         <StatBlock>
           <p>{result.toFixed(2)}% </p>
-          <h3>Positivos : Pruebas</h3>
+          <h3>Positivos : Testes</h3>
         </StatBlock>
       </StatGrid>
       <br />

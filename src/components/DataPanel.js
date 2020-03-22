@@ -1,9 +1,9 @@
-import React from 'react';
-import Stats from '../components/Stats';
-import Ecuador from '../components/Ecuador';
-import Heading from '../components/Heading';
-import Nav from '../components/Nav';
-import Footer from '../components/Footer';
+import React from "react";
+import Stats from "../components/Stats";
+import Ecuador from "../components/Ecuador";
+import Heading from "../components/Heading";
+import Nav from "../components/Nav";
+import Footer from "../components/Footer";
 
 export default function DataPanel() {
   return (
@@ -17,9 +17,9 @@ export default function DataPanel() {
 
       <div>
         <h2>
-          Ecuador{' '}
+          Brasil{" "}
           <span role="img" aria-label="Ecuador Flag">
-            🇪🇨
+            🇧🇷
           </span>
         </h2>
         <Ecuador />

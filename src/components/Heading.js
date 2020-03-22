@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
 export default function Heading() {
   return (
     <h1>
-      Monitor COVID-19/SARS-CoV-2 Ecuador*
+      Monitor Corona Virus Brasil*
       <br />
-      <small>*Esta NO es una fuente oficial</small>
+      <small>*Está não é uma fonte oficial</small>
     </h1>
   );
 }

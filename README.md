@@ -7,7 +7,7 @@ TODO
 - Add charts
 - Add interactivity
 - % values on stat blocks
-- try to hook API data for ecuador
+- try to hook API data for brazil
 - Error states
 - refactor styled components/global styles
 - add index metas

@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from '@reach/router';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "@reach/router";
 
 const isActive = ({ isCurrent }) => {
-  return isCurrent ? { className: 'active' } : {};
+  return isCurrent ? { className: "active" } : {};
 };
 
 const Navigation = styled.nav`
@@ -54,10 +54,10 @@ export default function Nav() {
         X Provincia
       </Link>
       <Link to="contagios" getProps={isActive}>
-        X Día
+        X Dia
       </Link>
       <Link to="detalles" getProps={isActive}>
-        Detalle
+        Detalhe
       </Link>
     </Navigation>
   );
