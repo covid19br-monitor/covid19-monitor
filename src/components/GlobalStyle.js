@@ -69,7 +69,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   hr {
-    margin: 1.5rem 0;
+    margin: 1.2rem 0;
     border: 0;
     height: 1px;
     background-image: linear-gradient(
