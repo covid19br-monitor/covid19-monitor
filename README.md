@@ -2,6 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 TODO
 
+- Adicionar API para dados do brasil, talvez brasil.io
 - Fix Markers (scatter plot?)
 - Fix responsive map window
 - Add charts
@@ -16,3 +17,14 @@ TODO
 - add information pages
 - add studies
 - fix firefox scrolling behaviour on left section
+
+Para desenvolvedores
+
+- Criar um token em mapbox.com
+- Adicionar em .env.local
+
+```
+REACT_APP_MAPBOX_ACCESS_TOKEN=token
+```
+
+- npm start
