@@ -5,14 +5,15 @@ import { StatGrid, StatBlock } from "../components/StyledStats";
 export default function Stats({ url }) {
   const nf = Intl.NumberFormat();
   const { stats, loading, error } = useStats(url);
+
   function formatDate(date) {
     let day = date.getDate().toString(),
       finalDay = day.length === 1 ? "0" + day : day,
       month = (date.getMonth() + 1).toString(),
       finalMonth = month.length === 1 ? "0" + month : month,
       finalYear = date.getFullYear(),
-      hour = date.getUTCHours(),
-      minutes = date.getUTCMinutes();
+      hour = date.getHours(),
+      minutes = date.getMinutes();
 
     if (hour < 10) {
       hour = "0" + hour;
