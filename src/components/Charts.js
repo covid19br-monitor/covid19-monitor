@@ -50,7 +50,8 @@ const confirmed = {
     "18/03",
     "19/03",
     "20/03",
-    "21/03"
+    "21/03",
+    "22/03"
   ],
   datasets: [
     {
@@ -92,7 +93,8 @@ const confirmed = {
         428,
         621,
         978,
-        1178
+        1178,
+        1209
       ]
     }
   ]
@@ -131,8 +133,7 @@ export function ConfirmedChart() {
   );
 }
 
-const sortedData = BrazilData
-  .sort((a, b) => b.confirmed - a.confirmed);
+const sortedData = BrazilData.sort((a, b) => b.confirmed - a.confirmed);
 
 const labels = sortedData.map(province => province.name);
 const confirmedCases = sortedData.map(province => province.confirmed);
