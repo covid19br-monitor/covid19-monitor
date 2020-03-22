@@ -40,5 +40,6 @@
       "not dead",
       "not op_mini all"
     ]
-  }
+  },
+  "es5BrowserSupport": false
 }
