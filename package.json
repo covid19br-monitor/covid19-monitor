@@ -2,6 +2,14 @@
   "name": "covid19-monitor",
   "version": "0.1.0",
   "private": true,
+  "resolutions": {
+    "@babel/preset-env": "^7.8.0"
+  },
+  "devDependencies": {
+    "@babel/compat-data": "^7.8.0",
+    "@babel/preset-env": "^7.8.0",
+    "babel-loader": "^8.1.0"
+  },
   "dependencies": {
     "@reach/router": "^1.3.3",
     "@testing-library/jest-dom": "^4.2.4",
