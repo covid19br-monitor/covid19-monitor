@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -57,6 +57,7 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 1px;
     line-height: 1.7rem;
     margin-bottom: .2rem;
+    margin-top: 1rem;
     opacity: .8;
     @media (max-width: 960px) {
       font-size: 1rem;
@@ -68,7 +69,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   hr {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     border: 0;
     height: 1px;
     background-image: linear-gradient(
@@ -129,11 +130,6 @@ export const GlobalStyle = createGlobalStyle`
         :last-of-type {
           flex: 3;
         }
-      }
-
-      > div {
-        margin-top: 1rem;
-
       }
     }
 
