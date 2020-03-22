@@ -131,10 +131,11 @@ export function ConfirmedChart() {
   );
 }
 
-const labels = BrazilData.map(province => province.name);
-const confirmedCases = BrazilData
-  .map(province => province.confirmed)
-  .sort((a, b) => b - a);
+const sortedData = BrazilData
+  .sort((a, b) => b.confirmed - a.confirmed);
+
+const labels = sortedData.map(province => province.name);
+const confirmedCases = sortedData.map(province => province.confirmed);
 
 const confirmedByProvince = {
   labels: labels,
