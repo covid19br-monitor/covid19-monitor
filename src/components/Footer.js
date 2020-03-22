@@ -19,7 +19,7 @@ export default function Footer() {
       >
         @glauberamos
       </a>
-      {" and "}
+      {" e "}
       <a
         target="_blank"
         rel="noopener noreferrer"
