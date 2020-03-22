@@ -2,6 +2,7 @@ import React from "react";
 import { Bar, HorizontalBar, Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import BrazilData from "../db/BrazilData";
+import { getDates } from "../utils/dateUtils";
 
 const ChartSection = styled.div`
   width: 100%;
@@ -24,35 +25,10 @@ const ChartPieSection = styled.div`
   }
 `;
 
+const datesArray = getDates(new Date("02/26/2020"), new Date());
+
 const confirmed = {
-  labels: [
-    "26/02",
-    "27/02",
-    "28/02",
-    "29/02",
-    "1/03",
-    "2/03",
-    "3/03",
-    "4/03",
-    "5/03",
-    "6/03",
-    "7/03",
-    "8/03",
-    "9/03",
-    "10/03",
-    "11/03",
-    "12/03",
-    "13/03",
-    "14/03",
-    "15/03",
-    "16/03",
-    "17/03",
-    "18/03",
-    "19/03",
-    "20/03",
-    "21/03",
-    "22/03"
-  ],
+  labels: datesArray.map(date => date.displayFormat),
   datasets: [
     {
       label: "Confirmados",
