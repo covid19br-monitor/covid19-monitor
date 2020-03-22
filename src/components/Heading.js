@@ -5,7 +5,7 @@ export default function Heading() {
     <h1>
       Monitor COVID-19 Brasil*
       <br />
-      <small>*Está não é uma fonte oficial</small>
+      <small>*Esta não é uma fonte oficial</small>
     </h1>
   );
 }
