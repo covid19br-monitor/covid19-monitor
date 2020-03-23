@@ -1,13 +1,13 @@
-import React from 'react';
-import { Router } from '@reach/router';
-import MapChart from '../src/components/MapChart';
+import React from "react";
+import { Router } from "@reach/router";
+import MapChart from "../src/components/MapChart";
 import {
-  ConfirmedChart,
   ConfirmedByProvinceChart,
   DetailsChart
-} from '../src/components/Charts';
-import { GlobalStyle } from '../src/components/GlobalStyle';
-import DataPanel from '../src/components/DataPanel';
+} from "../src/components/Charts";
+import ConfirmedChart from "../src/components/ConfirmedChart";
+import { GlobalStyle } from "../src/components/GlobalStyle";
+import DataPanel from "../src/components/DataPanel";
 import Nav from "../src/components/Nav";
 
 export default function App() {
