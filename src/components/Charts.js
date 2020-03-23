@@ -1,7 +1,7 @@
 import React from "react";
 import { HorizontalBar, Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
-import BrazilData from "../db/BrazilData";
+import useStats from "../hooks/useStats";
 
 const ChartSection = styled.div`
   width: 100%;
@@ -24,32 +24,94 @@ const ChartPieSection = styled.div`
   }
 `;
 
-const sortedData = BrazilData.sort((a, b) => b.confirmed - a.confirmed);
-
-const labels = sortedData.map(province => province.name);
-const confirmedCases = sortedData.map(province => province.confirmed);
-
-const confirmedByProvince = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Confirmados",
-      backgroundColor: "hsla(163, 72%, 48%, .4)",
-      borderColor: "hsla(163, 72%, 48%, 1.0)",
-      borderWidth: 1,
-      hoverBackgroundColor: "hsla(163, 72%, 48%, .9)",
-      hoverBorderColor: "hsla(163, 72%, 48%, 1)",
-      data: confirmedCases
-    }
-  ]
-};
-
 export function ConfirmedByProvinceChart() {
+  const { stats } = useStats("https://covid-19br.firebaseio.com/data.json");
+  let sortedProvinces;
+  let confirmedByProvince;
+
+  if (stats) {
+    const { docs } = stats;
+
+    let values = {};
+
+    docs.map(doc => {
+      if (values[doc.state]) {
+        values[doc.state] = values[doc.state] + doc.cases;
+      } else {
+        values[doc.state] = doc.cases;
+
+        console.log(doc);
+      }
+    });
+
+    const acronymous = {
+      AC: "Acre",
+      AL: "Alagoas",
+      AP: "Amapá",
+      AM: "Amazonas",
+      BA: "Bahia",
+      CE: "Ceará",
+      DF: "Distrito Federal",
+      ES: "Espírito Santo",
+      GO: "Goiás",
+      MA: "Maranhão",
+      MT: "Mato Grosso",
+      MS: "Mato Grosso do Sul",
+      MG: "Minas Gerais",
+      PA: "Pará",
+      PB: "Paraíba",
+      PR: "Paraná",
+      PE: "Pernambuco",
+      PI: "Piauí",
+      RJ: "Rio de Janeiro",
+      RN: "Rio Grande do Norte",
+      RS: "Rio Grande do Sul",
+      RO: "Rondônia",
+      RR: "Roraima",
+      SC: "Santa Catarina",
+      SP: "São Paulo",
+      SE: "Sergipe",
+      TO: "Tocantins"
+    };
+
+    let provinces = [];
+
+    for (let [key, value] of Object.entries(values)) {
+      provinces.push({
+        id: key,
+        name: acronymous[key],
+        confirmed: value
+      });
+    }
+
+    sortedProvinces = provinces.sort((a, b) => {
+      return b.confirmed - a.confirmed;
+    });
+
+    const labels = sortedProvinces.map(province => province.name);
+    const confirmedCases = sortedProvinces.map(province => province.confirmed);
+
+    confirmedByProvince = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Confirmados",
+          backgroundColor: "hsla(163, 72%, 48%, .4)",
+          borderColor: "hsla(163, 72%, 48%, 1.0)",
+          borderWidth: 1,
+          hoverBackgroundColor: "hsla(163, 72%, 48%, .9)",
+          hoverBorderColor: "hsla(163, 72%, 48%, 1)",
+          data: confirmedCases
+        }
+      ]
+    };
+  }
+
   return (
     <>
       <ChartSection>
         <HorizontalBar
-          data={confirmedByProvince}
+          data={confirmedByProvince ? confirmedByProvince : {}}
           width={100}
           height={50}
           options={{

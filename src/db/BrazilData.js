@@ -5,12 +5,7 @@ const data = [
     capital: "Porto Alegre",
     confirmed: 71,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -30,
-      lng: -53.6
-    }
+    compromised: 0
   },
   {
     id: 1,
@@ -18,12 +13,7 @@ const data = [
     capital: "Rio Branco",
     confirmed: 11,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -9.1,
-      lng: -70.3
-    }
+    compromised: 0
   },
   {
     id: 2,
@@ -31,12 +21,7 @@ const data = [
     capital: "Macapá",
     confirmed: 1,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: 1.6,
-      lng: -52.3
-    }
+    compromised: 0
   },
   {
     id: 3,
@@ -44,12 +29,7 @@ const data = [
     capital: "Manaus",
     confirmed: 26,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -3.8,
-      lng: -64.95
-    }
+    compromised: 0
   },
   {
     id: 4,
@@ -57,12 +37,7 @@ const data = [
     capital: "Salvador",
     confirmed: 49,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -13.5,
-      lng: -41.9
-    }
+    compromised: 0
   },
   {
     id: 5,
@@ -70,12 +45,7 @@ const data = [
     capital: "Curitiba",
     confirmed: 43,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -24.6,
-      lng: -51.2
-    }
+    compromised: 0
   },
   {
     id: 6,
@@ -83,12 +53,7 @@ const data = [
     capital: "Fortaleza",
     confirmed: 84,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -5.27,
-      lng: -39.29
-    }
+    compromised: 0
   },
   {
     id: 7,
@@ -97,11 +62,7 @@ const data = [
     confirmed: 112,
     deaths: 0,
     compromised: 0,
-    status: "alert",
-    coord: {
-      lat: -15.77,
-      lng: -47.79
-    }
+    status: "alert"
   },
   {
     id: 8,
@@ -109,12 +70,7 @@ const data = [
     capital: "Vitória",
     confirmed: 26,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -19.18,
-      lng: -40.3
-    }
+    compromised: 0
   },
   {
     id: 9,
@@ -122,12 +78,7 @@ const data = [
     capital: "Goiânia",
     confirmed: 18,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -15.97,
-      lng: -49.57
-    }
+    compromised: 0
   },
   {
     id: 10,
@@ -135,12 +86,7 @@ const data = [
     capital: "João Pessoa",
     confirmed: 1,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -7.16,
-      lng: -36.72
-    }
+    compromised: 0
   },
   {
     id: 11,
@@ -148,12 +94,7 @@ const data = [
     capital: "Belo Horizonte",
     confirmed: 83,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -18.63,
-      lng: -45.45
-    }
+    compromised: 0
   },
   {
     id: 12,
@@ -161,12 +102,7 @@ const data = [
     capital: "São Luís",
     confirmed: 2,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -5.62,
-      lng: -45.24
-    }
+    compromised: 0
   },
   {
     id: 13,
@@ -174,12 +110,7 @@ const data = [
     capital: "Cuiabá",
     confirmed: 2,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -12.75,
-      lng: -55.92
-    }
+    compromised: 0
   },
   {
     id: 14,
@@ -187,12 +118,7 @@ const data = [
     capital: "Campo Grande",
     confirmed: 16,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -20.65,
-      lng: -54.54
-    }
+    compromised: 0
   },
   {
     id: 15,
@@ -200,12 +126,7 @@ const data = [
     capital: "Belém",
     confirmed: 4,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -3.63,
-      lng: -52.45
-    }
+    compromised: 0
   },
   {
     id: 16,
@@ -213,12 +134,7 @@ const data = [
     capital: "Recife",
     confirmed: 33,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -8.61,
-      lng: -36.82
-    }
+    compromised: 0
   },
   {
     id: 17,
@@ -226,12 +142,7 @@ const data = [
     capital: "Teresina",
     confirmed: 4,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -7.2,
-      lng: -42.18
-    }
+    compromised: 0
   },
   {
     id: 18,
@@ -240,11 +151,7 @@ const data = [
     confirmed: 119,
     deaths: 3,
     compromised: 0,
-    status: "alert",
-    coord: {
-      lat: -22.12,
-      lng: -42.87
-    }
+    status: "alert"
   },
   {
     id: 19,
@@ -252,12 +159,7 @@ const data = [
     capital: "Natal",
     confirmed: 9,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -5.88,
-      lng: -36.72
-    }
+    compromised: 0
   },
   {
     id: 20,
@@ -265,12 +167,7 @@ const data = [
     capital: "Porto Velho",
     confirmed: 3,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -10.84,
-      lng: -63.29
-    }
+    compromised: 0
   },
   {
     id: 21,
@@ -278,12 +175,7 @@ const data = [
     capital: "Boa Vista",
     confirmed: 2,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: 1.84,
-      lng: -61.3
-    }
+    compromised: 0
   },
   {
     id: 22,
@@ -291,12 +183,7 @@ const data = [
     capital: "Florianópolis",
     confirmed: 51,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -27.2423,
-      lng: -50.2189
-    }
+    compromised: 0
   },
   {
     id: 23,
@@ -305,11 +192,7 @@ const data = [
     confirmed: 459,
     deaths: 15,
     compromised: 0,
-    status: "alert",
-    coord: {
-      lat: -22.6,
-      lng: -48.63
-    }
+    status: "alert"
   },
   {
     id: 24,
@@ -317,12 +200,7 @@ const data = [
     capital: "Palmas",
     confirmed: 2,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -9.34,
-      lng: -48.21
-    }
+    compromised: 0
   },
   {
     id: 25,
@@ -330,12 +208,7 @@ const data = [
     capital: "Aracaju",
     confirmed: 10,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -10.54,
-      lng: -37.27
-    }
+    compromised: 0
   },
   {
     id: 26,
@@ -343,12 +216,7 @@ const data = [
     capital: "Maceió",
     confirmed: 7,
     deaths: 0,
-    compromised: 0,
-    status: null,
-    coord: {
-      lat: -9.69,
-      lng: -36.64
-    }
+    compromised: 0
   }
 ];
 
