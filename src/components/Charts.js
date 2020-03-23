@@ -1,7 +1,8 @@
 import React from "react";
-import { Bar, HorizontalBar, Doughnut } from "react-chartjs-2";
+import { HorizontalBar, Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
-import BrazilData from "../db/BrazilData";
+import useStats from "../hooks/useStats";
+import acronymous from "../db/acronymous";
 
 const ChartSection = styled.div`
   width: 100%;
@@ -24,142 +25,64 @@ const ChartPieSection = styled.div`
   }
 `;
 
-const confirmed = {
-  labels: [
-    "26/02",
-    "27/02",
-    "28/02",
-    "29/02",
-    "1/03",
-    "2/03",
-    "3/03",
-    "4/03",
-    "5/03",
-    "6/03",
-    "7/03",
-    "8/03",
-    "9/03",
-    "10/03",
-    "11/03",
-    "12/03",
-    "13/03",
-    "14/03",
-    "15/03",
-    "16/03",
-    "17/03",
-    "18/03",
-    "19/03",
-    "20/03",
-    "21/03"
-  ],
-  datasets: [
-    {
-      label: "Confirmados",
-      type: "line",
-      pointBorderColor: "hsla(163, 72%, 48%, 1.0)",
-      pointBackgroundColor: "hsla(163, 72%, 48%, 0.7)",
-      backgroundColor: "hsla(163, 72%, 48%, .4)",
-      borderColor: "hsla(163, 72%, 48%, 1.0)",
-      borderWidth: 1,
-      hoverBackgroundColor: "hsla(163, 72%, 48%, .9)",
-      hoverBorderColor: "hsla(163, 72%, 48%, 1)",
-      pointRadius: 6,
-      pointStyle: "mitter",
-      showLines: false,
-      lineTension: 0.4,
-      data: [
-        1,
-        1,
-        1,
-        2,
-        2,
-        2,
-        2,
-        3,
-        8,
-        13,
-        25,
-        25,
-        25,
-        34,
-        52,
-        77,
-        98,
-        98,
-        98,
-        234,
-        291,
-        428,
-        621,
-        978,
-        1178
-      ]
-    }
-  ]
-};
-
-export function ConfirmedChart() {
-  return (
-    <>
-      <ChartSection>
-        <Bar
-          data={confirmed}
-          width={100}
-          height={50}
-          options={{
-            maintainAspectRatio: false,
-            legend: {
-              display: true,
-              position: "top",
-              fullWidth: true,
-              reverse: false,
-              labels: {
-                fontColor: "hsla(163, 72%, 48%, 1)"
-              }
-            },
-            scales: {
-              yAxes: [
-                {
-                  // type: 'logarithmic'
-                }
-              ]
-            }
-          }}
-        />
-      </ChartSection>
-    </>
-  );
-}
-
-const labels = BrazilData
-  .sort((a, b) => b.confirmed - a.confirmed)
-  .map(province => province.name);
-
-const confirmedCases = BrazilData
-  .map(province => province.confirmed)
-  .sort((a, b) => b - a);
-
-const confirmedByProvince = {
-  labels: labels,
-  datasets: [
-    {
-      label: "Confirmados",
-      backgroundColor: "hsla(163, 72%, 48%, .4)",
-      borderColor: "hsla(163, 72%, 48%, 1.0)",
-      borderWidth: 1,
-      hoverBackgroundColor: "hsla(163, 72%, 48%, .9)",
-      hoverBorderColor: "hsla(163, 72%, 48%, 1)",
-      data: confirmedCases
-    }
-  ]
-};
-
 export function ConfirmedByProvinceChart() {
+  const { stats } = useStats("https://covid-19br.firebaseio.com/data.json");
+  let sortedProvinces;
+  let confirmedByProvince;
+
+  if (stats) {
+    const { docs } = stats;
+
+    let values = {};
+
+    docs.map(doc => {
+      if (values[doc.state]) {
+        values[doc.state] = values[doc.state] + doc.cases;
+      } else {
+        values[doc.state] = doc.cases;
+
+        console.log(doc);
+      }
+    });
+
+    let provinces = [];
+
+    for (let [key, value] of Object.entries(values)) {
+      provinces.push({
+        id: key,
+        name: acronymous[key],
+        confirmed: value
+      });
+    }
+
+    sortedProvinces = provinces.sort((a, b) => {
+      return b.confirmed - a.confirmed;
+    });
+
+    const labels = sortedProvinces.map(province => province.name);
+    const confirmedCases = sortedProvinces.map(province => province.confirmed);
+
+    confirmedByProvince = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Confirmados",
+          backgroundColor: "hsla(163, 72%, 48%, .4)",
+          borderColor: "hsla(163, 72%, 48%, 1.0)",
+          borderWidth: 1,
+          hoverBackgroundColor: "hsla(163, 72%, 48%, .9)",
+          hoverBorderColor: "hsla(163, 72%, 48%, 1)",
+          data: confirmedCases
+        }
+      ]
+    };
+  }
+
   return (
     <>
       <ChartSection>
         <HorizontalBar
-          data={confirmedByProvince}
+          data={confirmedByProvince ? confirmedByProvince : {}}
           width={100}
           height={50}
           options={{
