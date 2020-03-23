@@ -5,22 +5,23 @@ Project inspired by https://www.monitorec.app
 
 TODO
 
-[] Add API for data in brasil, brasil.io
-[] Add graph for new cases each day
-[x] Fix responsive map window
-[] Add charts
-[] Add interactivity
-[] refactor styled components/global styles
-[] add index metas
-[] add db (light table or google sheets)
-[] add information pages
-[] add studies
-[] fix firefox scrolling behaviour on left section
+- [] Add API for data in brasil, brasil.io
+- [] Add graph for new cases each day
+- [x] Fix responsive map window
+- [] Add charts
+- [] Add interactivity
+- [] refactor styled components/global styles
+- [] add index metas
+- [] add db (light table or google sheets)
+- [] add information pages
+- [] add studies
+- [] fix firefox scrolling behaviour on left section
 
 FOR DEVELOPMENT
 
-- yarn
-- yarn start
+- `yarn`
+- `yarn start`
 
 🇪🇨https://www.monitorec.app
+
 🇧🇷https://covid19br.app
