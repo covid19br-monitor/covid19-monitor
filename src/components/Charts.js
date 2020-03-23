@@ -27,35 +27,25 @@ const ChartPieSection = styled.div`
 
 export function ConfirmedByProvinceChart() {
   const { stats } = useStats("https://covid-19br.firebaseio.com/data.json");
-  let sortedProvinces;
+  const statesData = {};
   let confirmedByProvince;
 
   if (stats) {
-    const { docs } = stats;
-
-    let values = {};
-
-    docs.map(doc => {
-      if (values[doc.state]) {
-        values[doc.state] = values[doc.state] + doc.cases;
+    stats.docs.forEach((city) => {
+      const stateIndex = city.state.toUpperCase();
+    
+      if (statesData[stateIndex]) {
+        statesData[stateIndex].confirmed += city.cases;
       } else {
-        values[doc.state] = doc.cases;
-
-        console.log(doc);
+        statesData[stateIndex] = {
+          id: city.state,
+          name: acronymous[city.state],
+          confirmed: city.cases,
+        };
       }
     });
 
-    let provinces = [];
-
-    for (let [key, value] of Object.entries(values)) {
-      provinces.push({
-        id: key,
-        name: acronymous[key],
-        confirmed: value
-      });
-    }
-
-    sortedProvinces = provinces.sort((a, b) => {
+    const sortedProvinces = Object.values(statesData).sort((a, b) => {
       return b.confirmed - a.confirmed;
     });
 

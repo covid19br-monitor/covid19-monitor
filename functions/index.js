@@ -13,8 +13,6 @@ exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
       }
     )
     .then(function(result) {
-      console.log(result.data);
-
       admin
         .database()
         .ref("data")
