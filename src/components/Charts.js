@@ -2,6 +2,7 @@ import React from "react";
 import { HorizontalBar, Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
 import useStats from "../hooks/useStats";
+import acronymous from "../db/acronymous";
 
 const ChartSection = styled.div`
   width: 100%;
@@ -43,36 +44,6 @@ export function ConfirmedByProvinceChart() {
         console.log(doc);
       }
     });
-
-    const acronymous = {
-      AC: "Acre",
-      AL: "Alagoas",
-      AP: "Amapá",
-      AM: "Amazonas",
-      BA: "Bahia",
-      CE: "Ceará",
-      DF: "Distrito Federal",
-      ES: "Espírito Santo",
-      GO: "Goiás",
-      MA: "Maranhão",
-      MT: "Mato Grosso",
-      MS: "Mato Grosso do Sul",
-      MG: "Minas Gerais",
-      PA: "Pará",
-      PB: "Paraíba",
-      PR: "Paraná",
-      PE: "Pernambuco",
-      PI: "Piauí",
-      RJ: "Rio de Janeiro",
-      RN: "Rio Grande do Norte",
-      RS: "Rio Grande do Sul",
-      RO: "Rondônia",
-      RR: "Roraima",
-      SC: "Santa Catarina",
-      SP: "São Paulo",
-      SE: "Sergipe",
-      TO: "Tocantins"
-    };
 
     let provinces = [];
 
