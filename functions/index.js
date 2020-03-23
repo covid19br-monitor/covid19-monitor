@@ -4,7 +4,7 @@ const axios = require("axios");
 
 admin.initializeApp(functions.config().firebase);
 
-exports.getData = functions.pubsub.schedule("every 1 hour").onRun(context => {
+exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
   axios
     .get(
       "https://especiais.g1.globo.com/bemestar/coronavirus/mapa-coronavirus/data/brazil-cases.json",
