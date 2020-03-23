@@ -3,7 +3,7 @@ const data = [
     id: 0,
     name: "Rio Grande do Sul",
     capital: "Porto Alegre",
-    confirmed: 71,
+    confirmed: 85,
     deaths: 0
   },
   {
@@ -31,28 +31,28 @@ const data = [
     id: 4,
     name: "Bahia",
     capital: "Salvador",
-    confirmed: 49,
+    confirmed: 55,
     deaths: 0
   },
   {
     id: 5,
     name: "Paraná",
     capital: "Curitiba",
-    confirmed: 43,
+    confirmed: 54,
     deaths: 0
   },
   {
     id: 6,
     name: "Ceará",
     capital: "Fortaleza",
-    confirmed: 84,
+    confirmed: 125,
     deaths: 0
   },
   {
     id: 7,
     name: "Distrito Federal",
     capital: "Brasília",
-    confirmed: 112,
+    confirmed: 134,
     deaths: 0,
     status: "alert"
   },
@@ -67,14 +67,14 @@ const data = [
     id: 9,
     name: "Goiás",
     capital: "Goiânia",
-    confirmed: 18,
+    confirmed: 21,
     deaths: 0
   },
   {
     id: 10,
     name: "Paraíba",
     capital: "João Pessoa",
-    confirmed: 1,
+    confirmed: 4,
     deaths: 0
   },
   {
@@ -102,7 +102,7 @@ const data = [
     id: 14,
     name: "Mato Grosso do Sul",
     capital: "Campo Grande",
-    confirmed: 16,
+    confirmed: 21,
     deaths: 0
   },
   {
@@ -116,21 +116,21 @@ const data = [
     id: 16,
     name: "Pernambuco",
     capital: "Recife",
-    confirmed: 33,
+    confirmed: 37,
     deaths: 0
   },
   {
     id: 17,
     name: "Piauí",
     capital: "Teresina",
-    confirmed: 4,
+    confirmed: 6,
     deaths: 0
   },
   {
     id: 18,
     name: "Rio de Janeiro",
     capital: "Rio de Janeiro",
-    confirmed: 119,
+    confirmed: 186,
     deaths: 3,
     status: "alert"
   },
@@ -138,7 +138,7 @@ const data = [
     id: 19,
     name: "Rio Grande do Norte",
     capital: "Natal",
-    confirmed: 9,
+    confirmed: 13,
     deaths: 0
   },
   {
@@ -159,22 +159,22 @@ const data = [
     id: 22,
     name: "Santa Catarina",
     capital: "Florianópolis",
-    confirmed: 51,
+    confirmed: 68,
     deaths: 0
   },
   {
     id: 23,
     name: "São Paulo",
     capital: "São Paulo",
-    confirmed: 459,
-    deaths: 15,
+    confirmed: 631,
+    deaths: 22,
     status: "alert"
   },
   {
     id: 24,
     name: "Tocantins",
     capital: "Palmas",
-    confirmed: 2,
+    confirmed: 5,
     deaths: 0
   },
   {
