@@ -4,6 +4,57 @@ const axios = require("axios");
 
 admin.initializeApp(functions.config().firebase);
 
+function getDay(date) {
+  let day = date.getDate().toString();
+  return day.length === 1 ? "0" + day : day;
+}
+
+function getMonth(date) {
+  let month = (date.getMonth() + 1).toString();
+  return month.length === 1 ? "0" + month : month;
+}
+
+function formatDateApi(date) {
+  const finalDay = getDay(date);
+  const finalMonth = getMonth(date);
+  const finalYear = date.getFullYear();
+
+  return `${finalMonth}-${finalDay}-${finalYear}`;
+}
+
+exports.getDaily = functions.pubsub
+  .schedule("every 24 hours")
+  .onRun(context => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayDate = formatDateApi(yesterday);
+    const todayDate = formatDateApi(new Date());
+
+    axios
+      .get(`https://covid19.mathdro.id/api/daily/${yesterdayDate}`)
+      .then(function(result) {
+        const brasilData = result.data.filter(
+          country => country.countryRegion === "Brazil"
+        )[0];
+
+        admin
+          .database()
+          .ref(`daily/${yesterdayDate}`)
+          .set(parseInt(brasilData.confirmed, 10));
+      });
+
+    axios
+      .get(`https://covid19.mathdro.id/api/countries/brazil`)
+      .then(function(result) {
+        admin
+          .database()
+          .ref(`daily/${todayDate}`)
+          .set(result.data.confirmed.value);
+      });
+
+    return true;
+  });
+
 exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
   axios
     .get(
@@ -23,7 +74,7 @@ exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
 });
 
 exports.getDataBrasilIo = functions.pubsub
-  .schedule("every 10 minutes")
+  .schedule("every 1 hours")
   .onRun(async () => {
     const response = await admin
       .database()

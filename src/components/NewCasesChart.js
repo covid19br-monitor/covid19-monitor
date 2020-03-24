@@ -19,46 +19,32 @@ class NewCasesChart extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const datesArray = getDates(new Date("02/26/2020"), new Date());
+    let newCasesArray = [];
 
-    let valuesStateArray = []
-    let newCasesArray = []
-
-    datesArray.map(async date => {
-      const value = await fetch(
-        `https://covid19.mathdro.id/api/daily/${date.apiFormat}`
-      )
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          return data.filter(country => country.countryRegion === "Brazil")[0];
-        })
-        .catch(error => {
-          return { confirmed: 0 };
-        });
-
-        valuesStateArray.push(parseInt(value && value.confirmed, 10));
-
-      if (datesArray.indexOf(date) === datesArray.length - 1) {
-        valuesStateArray = valuesStateArray.sort((a, b) => a - b);
-
-        datesArray.map(async (value, index) => { 
-          if (index === 0) {
-            newCasesArray[index] = valuesStateArray[index]
-          }
-
-          newCasesArray[index] = valuesStateArray[index] - valuesStateArray[index - 1] 
-        })
-
-        this.setState({
-          valuesArray: newCasesArray
-        });
-
-        this.chartReference && this.chartReference.chartInstance.update();
-      }
+    const value = await fetch(
+      `https://covid-19br.firebaseio.com/daily.json`
+    ).then(response => {
+      return response.json();
     });
+
+    const valuesStateArray = Object.values(value);
+
+    datesArray.map(async (value, index) => {
+      if (index === 0) {
+        newCasesArray[index] = valuesStateArray[index];
+      }
+
+      newCasesArray[index] =
+        valuesStateArray[index] - valuesStateArray[index - 1];
+    });
+
+    this.setState({
+      valuesArray: newCasesArray
+    });
+
+    this.chartReference && this.chartReference.chartInstance.update();
   }
 
   render() {

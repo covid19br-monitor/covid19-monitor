@@ -19,37 +19,20 @@ class ConfirmedChart extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const datesArray = getDates(new Date("02/26/2020"), new Date());
-
-    let valuesStateArray = []
-
-    datesArray.map(async date => {
-      const value = await fetch(
-        `https://covid19.mathdro.id/api/daily/${date.apiFormat}`
-      )
-        .then(response => {
-          return response.json();
-        })
-        .then(data => {
-          return data.filter(country => country.countryRegion === "Brazil")[0];
-        })
-        .catch(error => {
-          return { confirmed: 0 };
-        });
-
-      valuesStateArray.push(parseInt(value && value.confirmed, 10));
-
-      if (datesArray.indexOf(date) === datesArray.length - 1) {
-        valuesStateArray = valuesStateArray.sort((a, b) => a - b);
-
-        this.setState({
-          valuesArray: valuesStateArray
-        });
-
-        this.chartReference && this.chartReference.chartInstance.update();
-      }
+  async componentDidMount() {
+    const value = await fetch(
+      `https://covid-19br.firebaseio.com/daily.json`
+    ).then(response => {
+      return response.json();
     });
+
+    const valuesStateArray = Object.values(value);
+
+    this.setState({
+      valuesArray: valuesStateArray
+    });
+
+    this.chartReference && this.chartReference.chartInstance.update();
   }
 
   render() {
