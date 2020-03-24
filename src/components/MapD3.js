@@ -1,32 +1,78 @@
 import React from "react";
+import styled from "styled-components";
 import * as d3 from "d3";
 import * as topojson from "topojson";
+import acronymous from "../db/acronymous";
 import brazilStates from "../db/br-states.json";
 import brazilCities from '../db/brazil-cities.json';
 
-const tooltipStyle = {
-  position: "absolute",
-  transform: "translate(-50%, -110%)",
-  padding: "10px",
-  background: "rgba(000,000,000,0.9)",
-  color: "#fff",
-  fontSize: "0.7em",
-  pointerEvents: "none",
-  minWidth: "200px",
-  opacity: 0
-};
+const ToolTip = styled.div`
+  position: fixed;
+  transform: translate(-50%, -120%);
+  padding: 10px;
+  background: rgba(000,000,000,0.9);
+  color: #fff;
+  font-size: 0.7em;
+  pointer-events: none;
+  width: 250px;
+  opacity: 0;
 
-const mapWrapperStyle = {
-  position: "relative"
-};
+  &:after {
+    position absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 9px);
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 7.5px 0 7.5px;
+    border-color: rgba(000,000,000,0.9) transparent transparent transparent;
+  }
+`;
 
-const mapOptions = {
-  position: "absolute",
-  top: 0,
-  right: '1rem',
-  fontSize: '0.6em',
-  textTransform: 'uppercase',
-};
+const MapWrapper = styled.div`
+  position: relative;
+  height: 100%;
+
+  .map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 0.7em;
+  }
+
+  .map-options {
+    position: absolute;
+    bottom: 1rem;
+    right: 0.5rem;
+
+    label {
+      font-size: 0.6em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.1);
+      padding: 0.5em 1em;
+      border-radius: 0.5em;
+
+      input {
+        vertical-align: middle;
+      }
+    }
+
+    @media screen and (min-width: 768px) {
+      bottom: 2rem;
+      right: 1rem;
+
+      label {
+        font-size: 0.8em;
+      }
+    }
+  }
+`;
 
 class Map extends React.Component {
   constructor(props) {
@@ -43,38 +89,43 @@ class Map extends React.Component {
     this.statesData = {};
     this.showCities = false;
     this.maxConfirmed = 0;
+    this.colorScale = null;
+    this.path = null;
+    this.state = {
+      tooltipPos: {top: 0, left: 0},
+      loadingMap: true,
+    };
+  }
+
+  _mousemove = () => {
+    const x = d3.event.pageX - this.mapWrapper.current.getBoundingClientRect().left;
+    const y = d3.event.pageY;
+    this.setState({tooltipPos: {
+      opacity: 1,
+      left: `${x}px`,
+      top: `${y}px`,
+    }})
   }
 
   _mouseleave = d => {
-    this.tooltip.current.style.opacity = 0;
+    this.setState({tooltipPos: {
+      opacity: 0,
+    }})
   };
 
   _mouseover = d => {
     if (this.showCities) return;
     this.tooltip.current.innerHTML = `${d.properties.nome}
-    <br>Confirmados: ${d.value}`;
-    
-    this.tooltip.current.style.opacity = 1;
+    <br>Confirmados: ${d.data.deaths === null ? 'Não disponível' : d.data.confirmed}
+    <br>Mortes: ${d.data.deaths === null ? 'Não disponível' : d.data.deaths}`;
   };
 
   _mouseoverCity = d => {
     if (!this.showCities) return;
     this.tooltip.current.innerHTML = `${d.data.city} - ${d.data.state}
-    <br>Confirmados: ${d.data.confirmed}`;
-    
-    this.tooltip.current.style.opacity = 1;
-  };
-
-  _mousemoveCity = function(mouse, d) {
-    this.tooltip.current.style.left = mouse[0] + "px";
-    this.tooltip.current.style.top = mouse[1] + "px";
-    this.tooltip.current.innerHTML = `${d.data.city}
-      <br>Confirmados: ${d.data.confirmed}`;
-  };
-
-  _setTooltipPosition = (mouse, feature) => {
-    this.tooltip.current.style.left = mouse[0];
-    this.tooltip.current.style.top = mouse[1];
+    <br>Confirmados: ${d.data.confirmed}
+    <br>Mortes: ${d.data.deaths}
+    <br>Casos / 100k habitantes: ${parseFloat(d.data.confirmed_per_100k_inhabitants).toFixed(2)}`;
   };
 
   _zoomed = () => {
@@ -99,8 +150,14 @@ class Map extends React.Component {
     
     this.maxConfirmed = Math.max.apply(
       Math,
-      Object.values(this.statesData)
+      Object.values(this.statesData).map(o => o.confirmed)
     );
+
+    this.colorScale = d3
+      .scaleLinear()
+      .range(["#ffc2c2", "#860000"])
+      .domain([0, this.maxConfirmed / 2, this.maxConfirmed])
+      .interpolate(d3.interpolateLab);
 
     const totalConfirmed = Object.values(this.citiesData)
       .map(city => city.confirmed)
@@ -116,52 +173,46 @@ class Map extends React.Component {
 
     // Update the projection scale and centroid
     this.projection.scale(scale).center(center);
-
-    const that = this;
-    const path = d3.geoPath().projection(this.projection);
+    this.path = d3.geoPath().projection(this.projection);
 
     if (this.g) this.g.remove();
 
     this.g = this.svg.append("g");
 
-    const colorScale = d3
-      .scaleLinear()
-      .range(["#ffc2c2", "#860000"])
-      .domain([0, this.maxConfirmed / 2, this.maxConfirmed])
-      .interpolate(d3.interpolateLab);
-
     this.g
       .append('g')
       .attr('class', 'states')
-        .selectAll(".estado")
+        .selectAll(".state")
         .data(statesFeatures.features
-          .map(d => (d.value = this.statesData[d.id], d)))
+          .map(d => (d.data = this.statesData[d.id], d)))
         .enter()
         .append("path")
-        .attr("fill", d => colorScale(d.value))
-        .attr("d", path)
+        .attr("fill", d => this.colorScale(d.data.confirmed))
+        .attr("d", this.path)
         .on("mouseover", this._mouseover)
         .on("mouseleave", this._mouseleave)
-        .on("mousemove", function(d) {
-          const mouse = d3.mouse(this);
-          that.tooltip.current.style.left = mouse[0] + "px";
-          that.tooltip.current.style.top = mouse[1] + "px";
+        .on("mousemove", () => {
+          if(!this.showCities) this._mousemove();
         });
 
     this.g
       .append("path")
       .datum(statesContour)
-      .attr("d", path)
+      .attr("d", this.path)
       .attr("fill", "none")
+      .attr("pointer-events", "none")
       .attr("vector-effect", "non-scaling-stroke")
       .attr("stroke", "#666");
 
-    const radius = d3.scaleSqrt([0, avgConfirmedCities], [0, 10]);
+    const radiusSize = 10 * this.width / 1000;
 
+    const radius = d3.scaleSqrt([0, avgConfirmedCities], [0, radiusSize]);
+
+    const that = this;
     this.g
       .append('g')
       .attr('class', 'cities')
-        .attr('display', 'none')
+        // .attr('display', 'none')
         .attr("fill", "brown")
         .attr("fill-opacity", 0.5)
         .attr("stroke", "#fff")
@@ -173,17 +224,25 @@ class Map extends React.Component {
           .sort((a, b) => b.data.confirmed - a.data.confirmed))
         .join("circle")
           .attr("vector-effect", "non-scaling-stroke")
-          .attr("transform", d => `translate(${path.centroid(d)})`)
+          .attr("transform", d => `translate(${this.path.centroid(d)}) scale(0)`)
           .attr("r", d => {
             return radius(d.data.confirmed);
           })
-          .on("mouseover", this._mouseoverCity)
-          .on("mouseleave", this._mouseleave)
-          .on("mousemove", function(d) {
-            const mouse = d3.mouse(this.parentNode);
-            that.tooltip.current.style.left = mouse[0] + "px";
-            that.tooltip.current.style.top = mouse[1] + "px";
-          });
+          .on("mouseover", function (d) {
+            d3.select(this)
+              .transition()
+              .duration(300)
+              .attr('transform', `translate(${that.path.centroid(d)}) scale(1.15)`);
+            that._mouseoverCity(d);
+          })
+          .on("mouseleave", function (d) {
+            d3.select(this)
+              .transition()
+              .duration(100)
+              .attr('transform', `translate(${that.path.centroid(d)}) scale(1)`);
+            that._mouseleave(d);
+          })
+          .on("mousemove", this._mousemove);
 
     this.zoom = d3
     .zoom()
@@ -195,31 +254,35 @@ class Map extends React.Component {
     .on("zoom", this._zoomed)
         
     this.svg.call(this.zoom);
+
+    this.setState({loadingMap: false});
   };
 
   _init = async() => {
     const response = await fetch('https://brasil.io/api/dataset/covid19/caso/data?format=json');
     const data = await response.json();
 
+    Object.keys(acronymous).forEach((key) => {
+      this.statesData[key] = {
+        id: key,
+        name: acronymous[key],
+        confirmed: null,
+        deaths: null,
+      }
+    })
+
     data.results.forEach((city) => {
       const cityIndex = city.city ? city.city.toUpperCase() : '';
       const stateIndex = city.state.toUpperCase();
-    
-      if (city.is_last) {
-        if (city.place_type === "city" && city.city !== '') {
-          if (this.citiesData[cityIndex]) {
-            this.citiesData[cityIndex].confirmed += city.confirmed;
-          } else {
-            this.citiesData[cityIndex] = city;
-          }
-        }
       
-        if (city.place_type === "state") {
-          if (this.statesData[stateIndex]) {
-            this.statesData[stateIndex] += city.confirmed;
-          } else {
-            this.statesData[stateIndex] = city.confirmed;
-          }
+      if (city.is_last) {
+        if (city.place_type === 'city' && city.city !== '') {
+          this.citiesData[cityIndex] = city;
+        }
+        
+        if (city.place_type === 'state') {
+          this.statesData[stateIndex].confirmed = city.confirmed;
+          this.statesData[stateIndex].deaths = city.deaths;
         }
       }
     });
@@ -238,12 +301,36 @@ class Map extends React.Component {
     window.addEventListener("resize", this._build);
   }
 
+  _randomInt = (min, max) => {
+    return min + Math.floor((max - min) * Math.random());
+  }
+
   toggleCities = () => {
     this.showCities = !this.showCities;
+
     if (!this.showCities) {
-      this.g.select('.cities').attr('display', 'none');
+      this.g.select('.cities')
+        .selectAll("circle")
+        .transition()
+        .duration(300)
+        .attr("transform", d => `translate(${this.path.centroid(d)}) scale(0)`);
+      this.g.select('.states')
+        .selectAll("path")
+        .transition()
+        .duration(300)
+        .attr("fill", d => this.colorScale(d.data.confirmed));
     } else {
-      this.g.select('.cities').attr('display', 'block');
+      this.g.select('.cities')
+        .selectAll("circle")
+        .transition()
+        .delay((d, i) => this._randomInt(100, 300))
+        .duration(700)
+        .attr("transform", d => `translate(${this.path.centroid(d)}) scale(1)`);
+      this.g.select('.states')
+        .selectAll("path")
+        .transition()
+        .duration(300)
+        .attr("fill", "#333");
     }
   }
   
@@ -261,12 +348,15 @@ class Map extends React.Component {
 
   render() {
     return (
-      <div ref={this.mapWrapper} style={mapWrapperStyle}>
-        <div style={mapOptions}>
+      <MapWrapper ref={this.mapWrapper}>
+        <div className="map-options">
           <label><input type="checkbox" value={this.showCities} onChange={this.toggleCities} /> Mostrar cidades</label>
         </div>
-        <div ref={this.tooltip} style={tooltipStyle} />
-      </div>
+        {this.state.loadingMap && 
+          <div className="map-loading">Carregando Mapa...</div>
+        }
+        <ToolTip ref={this.tooltip} style={this.state.tooltipPos} />
+      </MapWrapper>
     );
   }
 }
