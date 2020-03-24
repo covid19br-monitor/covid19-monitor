@@ -2,10 +2,7 @@ import React from "react";
 import { Router } from "@reach/router";
 import { useState } from "react";
 import MapChart from "../src/components/MapChart";
-import {
-  ConfirmedByProvinceChart,
-  DetailsChart
-} from "../src/components/Charts";
+import { ConfirmedByProvinceChart } from "../src/components/Charts";
 import ConfirmedChart from "../src/components/ConfirmedChart";
 import NewCasesChart from "../src/components/NewCasesChart";
 import { GlobalStyle } from "../src/components/GlobalStyle";
