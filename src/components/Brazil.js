@@ -5,21 +5,25 @@ import { TwoCols, Row, Separator } from "./StyledStats";
 import acronymous from "../db/acronymous";
 
 export default function Brazil() {
-  const { stats } = useStats("https://covid-19br.firebaseio.com/data.json");
+  const { stats } = useStats(
+    "https://brasil.io/api/dataset/covid19/caso/data?format=json"
+  );
   const statesData = {};
 
   if (stats) {
-    stats.docs.forEach((city) => {
-      const stateIndex = city.state.toUpperCase();
-    
-      if (statesData[stateIndex]) {
-        statesData[stateIndex].confirmed += city.cases;
-      } else {
-        statesData[stateIndex] = {
-          id: city.state,
-          name: acronymous[city.state],
-          confirmed: city.cases,
-        };
+    stats.results.forEach(dataPoint => {
+      const stateIndex = dataPoint.state.toUpperCase();
+
+      if (dataPoint.is_last && dataPoint.place_type === "state") {
+        if (statesData[stateIndex]) {
+          statesData[stateIndex].confirmed += dataPoint.confirmed;
+        } else {
+          statesData[stateIndex] = {
+            id: dataPoint.state,
+            name: acronymous[dataPoint.state],
+            confirmed: dataPoint.confirmed
+          };
+        }
       }
     });
   }
@@ -32,15 +36,17 @@ export default function Brazil() {
       <br />
       <TwoCols>
         {statesData &&
-          Object.values(statesData).sort((a, b) => {
-            return b.confirmed - a.confirmed;
-          }).map(province => (
-            <Row key={province.id}>
-              <span>{province.name}</span>
-              <Separator />
-              <span>{province.confirmed}</span>
-            </Row>
-          ))}
+          Object.values(statesData)
+            .sort((a, b) => {
+              return b.confirmed - a.confirmed;
+            })
+            .map(province => (
+              <Row key={province.id}>
+                <span>{province.name}</span>
+                <Separator />
+                <span>{province.confirmed}</span>
+              </Row>
+            ))}
       </TwoCols>
       <hr />
     </>

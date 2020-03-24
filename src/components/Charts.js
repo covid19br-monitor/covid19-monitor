@@ -26,22 +26,26 @@ const ChartPieSection = styled.div`
 `;
 
 export function ConfirmedByProvinceChart() {
-  const { stats } = useStats("https://covid-19br.firebaseio.com/data.json");
+  const { stats } = useStats(
+    "https://brasil.io/api/dataset/covid19/caso/data?format=json"
+  );
   const statesData = {};
   let confirmedByProvince;
 
   if (stats) {
-    stats.docs.forEach((city) => {
-      const stateIndex = city.state.toUpperCase();
-    
-      if (statesData[stateIndex]) {
-        statesData[stateIndex].confirmed += city.cases;
-      } else {
-        statesData[stateIndex] = {
-          id: city.state,
-          name: acronymous[city.state],
-          confirmed: city.cases,
-        };
+    stats.results.forEach(dataPoint => {
+      const stateIndex = dataPoint.state.toUpperCase();
+
+      if (dataPoint.is_last && dataPoint.place_type === "state") {
+        if (statesData[stateIndex]) {
+          statesData[stateIndex].confirmed += dataPoint.confirmed;
+        } else {
+          statesData[stateIndex] = {
+            id: dataPoint.state,
+            name: acronymous[dataPoint.state],
+            confirmed: dataPoint.confirmed
+          };
+        }
       }
     });
 
