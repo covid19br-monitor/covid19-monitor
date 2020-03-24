@@ -18,7 +18,7 @@ const ToolTip = styled.div`
   opacity: 0;
 
   &:after {
-    position absolute;
+    position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 9px);
@@ -266,13 +266,10 @@ class Map extends React.Component {
             that._mouseleave(d);
           })
           .on("mousemove", this._mousemove);
-
-    this.setState({loadingMap: false});
   };
 
-  _init = async() => {
-    const response = await fetch('https://brasil.io/api/dataset/covid19/caso/data?format=json');
-    const data = await response.json();
+  _init = async () => {
+    const data = this.props.data
 
     Object.keys(acronymous).forEach((key) => {
       this.statesData[key] = {
@@ -283,34 +280,36 @@ class Map extends React.Component {
       }
     })
 
-    data.results.forEach((city) => {
-      const cityIndex = city.city ? city.city.toUpperCase() : '';
-      const stateIndex = city.state.toUpperCase();
-      
-      if (city.is_last) {
-        if (city.place_type === 'city' && city.city !== '') {
-          this.citiesData[cityIndex] = city;
-        }
+    if (data) {
+      data.results.forEach((city) => {
+        const cityIndex = city.city ? city.city.toUpperCase() : '';
+        const stateIndex = city.state.toUpperCase();
         
-        if (city.place_type === 'state') {
-          this.statesData[stateIndex].confirmed = city.confirmed;
-          this.statesData[stateIndex].deaths = city.deaths;
+        if (city.is_last) {
+          if (city.place_type === 'city' && city.city !== '') {
+            this.citiesData[cityIndex] = city;
+          }
+          
+          if (city.place_type === 'state') {
+            this.statesData[stateIndex].confirmed = city.confirmed;
+            this.statesData[stateIndex].deaths = city.deaths;
+          }
         }
-      }
-    });
+      });
 
-    this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
-    this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
+      this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
+      this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
 
-    this.svg = d3
-      .select(this.mapWrapper.current && this.mapWrapper.current)
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height);
+      this.svg = d3
+        .select(this.mapWrapper.current && this.mapWrapper.current)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height);
 
-    this._build();
+      this._build();
 
-    window.addEventListener("resize", this._build);
+      window.addEventListener("resize", this._build);
+    }
   }
 
   _randomInt = (min, max) => {
@@ -355,7 +354,16 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    this._init();
+    if (this.state.loadingMap) {
+      this._init();
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.loadingMap) {
+      this._init();
+      this.setState({loadingMap: false});
+    }
   }
 
   render() {
