@@ -22,7 +22,7 @@ class ConfirmedChart extends React.Component {
   componentDidMount() {
     const datesArray = getDates(new Date("02/26/2020"), new Date());
 
-    let valuesStateArray = Object.assign(this.state.valuesArray);
+    let valuesStateArray = []
 
     datesArray.map(async date => {
       const value = await fetch(
