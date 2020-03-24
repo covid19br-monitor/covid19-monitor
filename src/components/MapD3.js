@@ -89,6 +89,7 @@ class Map extends React.Component {
     this.statesData = {};
     this.showCities = false;
     this.maxConfirmed = 0;
+    this.avgConfirmedCities = 0;
     this.colorScale = null;
     this.path = null;
     this.state = {
@@ -128,8 +129,21 @@ class Map extends React.Component {
     <br>Casos / 100k habitantes: ${parseFloat(d.data.confirmed_per_100k_inhabitants).toFixed(2)}`;
   };
 
+  _radiusSize = (zoom) => {
+    const ratio = 1000;
+    const radiusSize = ((10 * this.width) / zoom) / ratio;
+    return radiusSize;
+  }
+
   _zoomed = () => {
+    const zoom = d3.event.transform.k;
+    const radius = d3.scaleSqrt([0, this.avgConfirmedCities], [0, this._radiusSize(zoom)]);
     this.g.attr("transform", d3.event.transform);
+    this.g.select('.cities')
+        .selectAll("circle")
+        .attr("r", d => {
+          return radius(d.data.confirmed);
+        })
   };
 
   _build = () => {
@@ -162,7 +176,7 @@ class Map extends React.Component {
     const totalConfirmed = Object.values(this.citiesData)
       .map(city => city.confirmed)
       .reduce((accumulator, currentValue) => accumulator + currentValue);
-    const avgConfirmedCities = totalConfirmed / Object.values(this.citiesData).length;
+    this.avgConfirmedCities = totalConfirmed / Object.values(this.citiesData).length;
 
     const bounds = d3.geoBounds(statesFeatures);
     const center = d3.geoCentroid(statesFeatures);
@@ -178,6 +192,17 @@ class Map extends React.Component {
     if (this.g) this.g.remove();
 
     this.g = this.svg.append("g");
+
+    this.zoom = d3
+    .zoom()
+    .translateExtent([
+      [0, 0],
+      [this.width, this.height]
+    ])
+    .scaleExtent([1, 5])
+    .on("zoom", this._zoomed);
+        
+    this.svg.call(this.zoom);
 
     this.g
       .append('g')
@@ -204,9 +229,7 @@ class Map extends React.Component {
       .attr("vector-effect", "non-scaling-stroke")
       .attr("stroke", "#666");
 
-    const radiusSize = 10 * this.width / 1000;
-
-    const radius = d3.scaleSqrt([0, avgConfirmedCities], [0, radiusSize]);
+    const radius = d3.scaleSqrt([0, this.avgConfirmedCities], [0, this._radiusSize(1)]);
 
     const that = this;
     this.g
@@ -243,17 +266,6 @@ class Map extends React.Component {
             that._mouseleave(d);
           })
           .on("mousemove", this._mousemove);
-
-    this.zoom = d3
-    .zoom()
-    .translateExtent([
-      [0, 0],
-      [this.width, this.height]
-    ])
-    .scaleExtent([1, 5])
-    .on("zoom", this._zoomed)
-        
-    this.svg.call(this.zoom);
 
     this.setState({loadingMap: false});
   };
