@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     --color-secondary: #fff;
     --color-warning: hsla(25, 100%, 67%, 1.0);
     --color-danger: hsla(0, 100%, 67%, 1.0);
-    --color-background: #222;
+    --color-background: #111;
   }
 
   * {
@@ -101,8 +101,9 @@ export const GlobalStyle = createGlobalStyle`
       animation-fill-mode: forwards;
 
       :first-of-type {
+        flex: 0 0 40%;
         overflow-y: scroll;
-        background: rgba(000,000,000,0.1);
+        background: #151515;
       }
 
       :last-of-type {
@@ -134,6 +135,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     footer {
+      font-size: 0.7em;
       margin-top: 2.5rem;
       padding-bottom: 2rem;
     }

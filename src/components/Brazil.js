@@ -1,4 +1,5 @@
 import React from "react";
+import * as d3 from "d3";
 import Stats from "../components/Stats";
 import useStats from "../hooks/useStats";
 import { TwoCols, Row, Separator } from "./StyledStats";
@@ -11,22 +12,37 @@ export default function Brazil() {
   const statesData = {};
 
   if (stats) {
-    stats.results.forEach(dataPoint => {
-      const stateIndex = dataPoint.state.toUpperCase();
+    Object.keys(acronymous).forEach((key) => {
+      statesData[key] = {
+        id: key,
+        name: acronymous[key],
+        confirmed: null,
+        deaths: null,
+      }
+    })
 
-      if (dataPoint.is_last && dataPoint.place_type === "state") {
-        if (statesData[stateIndex]) {
-          statesData[stateIndex].confirmed += dataPoint.confirmed;
-        } else {
-          statesData[stateIndex] = {
-            id: dataPoint.state,
-            name: acronymous[dataPoint.state],
-            confirmed: dataPoint.confirmed
-          };
+    stats.results.forEach((city) => {
+      const stateIndex = city.state.toUpperCase();
+      
+      if (city.is_last) {
+        if (city.place_type === 'state') {
+          statesData[stateIndex].confirmed = city.confirmed;
+          statesData[stateIndex].deaths = city.deaths;
         }
       }
     });
   }
+
+  const maxConfirmed = Math.max.apply(
+    Math,
+    Object.values(statesData).map(o => o.confirmed)
+  );
+
+  const colorScale = d3
+    .scaleLinear()
+    .range(["#ffc2c2", "#860000"])
+    .domain([0, maxConfirmed/2, maxConfirmed])
+    .interpolate(d3.interpolateLab);
 
   return (
     <>
@@ -41,10 +57,10 @@ export default function Brazil() {
               return b.confirmed - a.confirmed;
             })
             .map(province => (
-              <Row key={province.id}>
+              <Row key={province.id} style={{color: colorScale(province.confirmed)}}>
                 <span>{province.name}</span>
                 <Separator />
-                <span>{province.confirmed}</span>
+                <span>{province.confirmed || 'ND'}</span>
               </Row>
             ))}
       </TwoCols>
