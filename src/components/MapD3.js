@@ -59,8 +59,8 @@ class Map extends React.Component {
 
   _mouseoverCity = d => {
     if (!this.showCities) return;
-    this.tooltip.current.innerHTML = `${d.data.city_name} - ${d.data.state}
-    <br>Confirmados: ${d.data.cases}`;
+    this.tooltip.current.innerHTML = `${d.data.city} - ${d.data.state}
+    <br>Confirmados: ${d.data.confirmed}`;
     
     this.tooltip.current.style.opacity = 1;
   };
@@ -68,8 +68,8 @@ class Map extends React.Component {
   _mousemoveCity = function(mouse, d) {
     this.tooltip.current.style.left = mouse[0] + "px";
     this.tooltip.current.style.top = mouse[1] + "px";
-    this.tooltip.current.innerHTML = `${d.data.city_name}
-      <br>Confirmados: ${d.data.cases}`;
+    this.tooltip.current.innerHTML = `${d.data.city}
+      <br>Confirmados: ${d.data.confirmed}`;
   };
 
   _setTooltipPosition = (mouse, feature) => {
@@ -103,7 +103,7 @@ class Map extends React.Component {
     );
 
     const totalConfirmed = Object.values(this.citiesData)
-      .map(city => city.cases)
+      .map(city => city.confirmed)
       .reduce((accumulator, currentValue) => accumulator + currentValue);
     const avgConfirmedCities = totalConfirmed / Object.values(this.citiesData).length;
 
@@ -170,12 +170,12 @@ class Map extends React.Component {
         .data(topojson.feature(brazilCities, brazilCities.objects.BR_LEVE).features
           .filter(d => this.citiesData[d.properties.NM_MUNICIP])
           .map(d => (d.data = this.citiesData[d.properties.NM_MUNICIP], d))
-          .sort((a, b) => b.data.cases - a.data.cases))
+          .sort((a, b) => b.data.confirmed - a.data.confirmed))
         .join("circle")
           .attr("vector-effect", "non-scaling-stroke")
           .attr("transform", d => `translate(${path.centroid(d)})`)
           .attr("r", d => {
-            return radius(d.data.cases);
+            return radius(d.data.confirmed);
           })
           .on("mouseover", this._mouseoverCity)
           .on("mouseleave", this._mouseleave)
@@ -198,23 +198,29 @@ class Map extends React.Component {
   };
 
   _init = async() => {
-    const response = await fetch('https://covid-19br.firebaseio.com/data.json');
+    const response = await fetch('https://brasil.io/api/dataset/covid19/caso/data?format=json');
     const data = await response.json();
 
-    data.docs.forEach((city) => {
-      const cityIndex = city.city_name.toUpperCase();
+    data.results.forEach((city) => {
+      const cityIndex = city.city ? city.city.toUpperCase() : '';
       const stateIndex = city.state.toUpperCase();
     
-      if (this.citiesData[cityIndex]) {
-        this.citiesData[cityIndex].cases += city.cases;
-      } else {
-        this.citiesData[cityIndex] = city;
-      }
-    
-      if (this.statesData[stateIndex]) {
-        this.statesData[stateIndex] += city.cases;
-      } else {
-        this.statesData[stateIndex] = city.cases;
+      if (city.is_last) {
+        if (city.place_type === "city" && city.city !== '') {
+          if (this.citiesData[cityIndex]) {
+            this.citiesData[cityIndex].confirmed += city.confirmed;
+          } else {
+            this.citiesData[cityIndex] = city;
+          }
+        }
+      
+        if (city.place_type === "state") {
+          if (this.statesData[stateIndex]) {
+            this.statesData[stateIndex] += city.confirmed;
+          } else {
+            this.statesData[stateIndex] = city.confirmed;
+          }
+        }
       }
     });
 
