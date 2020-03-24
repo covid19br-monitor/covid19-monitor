@@ -1,6 +1,6 @@
 import React from "react";
 import * as d3 from "d3";
-import Stats from "../components/Stats";
+import StatsBr from "../components/StatsBr";
 import { TwoCols, Row, Separator } from "./StyledStats";
 import acronymous from "../db/acronymous";
 
@@ -43,7 +43,7 @@ export default function Brazil(props) {
 
   return (
     <>
-      <Stats url="https://covid19.mathdro.id/api/countries/brazil" />
+      <StatsBr data={statesData} />
       <br />
       <h4>Estados / Confirmados</h4>
       <br />
