@@ -32,7 +32,7 @@ export default function Footer() {
       <a
         target="_blank"
         rel="noopener noreferrer"
-        href="https://github.com/glauberramos/covid19-monitor"
+        href="https://github.com/covid19br-monitor/covid19-monitor"
       >
         Github
       </a>
