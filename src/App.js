@@ -6,6 +6,7 @@ import {
   DetailsChart
 } from "../src/components/Charts";
 import ConfirmedChart from "../src/components/ConfirmedChart";
+import NewCasesChart from "../src/components/NewCasesChart";
 import { GlobalStyle } from "../src/components/GlobalStyle";
 import DataPanel from "../src/components/DataPanel";
 import Nav from "../src/components/Nav";
@@ -23,6 +24,7 @@ export default function App() {
             <ConfirmedChart path="/contagios" />
             <ConfirmedByProvinceChart path="/contagios-provincia" />
             <DetailsChart path="/detalles" />
+            <NewCasesChart path="/novos-casos" />
           </Router>
         </section>
       </main>

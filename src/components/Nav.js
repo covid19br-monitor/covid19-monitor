@@ -58,6 +58,9 @@ export default function Nav() {
       <Link to="contagios" getProps={isActive}>
         Por Dia
       </Link>
+      <Link to="novos-casos" getProps={isActive}>
+        Novos casos
+      </Link>
     </Navigation>
   );
 }
