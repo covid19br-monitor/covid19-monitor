@@ -22,9 +22,6 @@ class NewCasesChart extends React.Component {
 
   componentDidUpdate() {
     if (this.state.loading && this.props.dailyData) {
-      console.log("componentDidUpdate");
-      console.log(this.props.dailyData);
-
       const datesArray = getDates(new Date("02/26/2020"), new Date());
       let newCasesArray = [];
 
