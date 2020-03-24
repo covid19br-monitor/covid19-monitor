@@ -15,36 +15,43 @@ class NewCasesChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valuesArray: []
+      valuesArray: [],
+      loading: true
     };
   }
 
-  async componentDidMount() {
-    const datesArray = getDates(new Date("02/26/2020"), new Date());
-    let newCasesArray = [];
+  componentDidUpdate() {
+    if (this.state.loading && this.props.dailyData) {
+      console.log("componentDidUpdate");
+      console.log(this.props.dailyData);
 
-    const value = await fetch(
-      `https://covid-19br.firebaseio.com/daily.json`
-    ).then(response => {
-      return response.json();
-    });
+      const datesArray = getDates(new Date("02/26/2020"), new Date());
+      let newCasesArray = [];
 
-    const valuesStateArray = Object.values(value);
+      const valuesStateArray = Object.values(this.props.dailyData);
 
-    datesArray.map(async (value, index) => {
-      if (index === 0) {
-        newCasesArray[index] = valuesStateArray[index];
-      }
+      datesArray.map((value, index) => {
+        if (index === 0) {
+          newCasesArray[index] = valuesStateArray[index];
+        }
 
-      newCasesArray[index] =
-        valuesStateArray[index] - valuesStateArray[index - 1];
-    });
+        newCasesArray[index] =
+          valuesStateArray[index] - valuesStateArray[index - 1];
+      });
 
+      this.setState({
+        valuesArray: newCasesArray,
+        loading: false
+      });
+
+      this.chartReference && this.chartReference.chartInstance.update();
+    }
+  }
+
+  componentDidMount() {
     this.setState({
-      valuesArray: newCasesArray
+      loading: true
     });
-
-    this.chartReference && this.chartReference.chartInstance.update();
   }
 
   render() {

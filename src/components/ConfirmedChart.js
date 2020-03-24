@@ -15,24 +15,28 @@ class ConfirmedChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valuesArray: []
+      valuesArray: [],
+      loading: true
     };
   }
 
-  async componentDidMount() {
-    const value = await fetch(
-      `https://covid-19br.firebaseio.com/daily.json`
-    ).then(response => {
-      return response.json();
-    });
+  componentDidUpdate() {
+    if (this.state.loading && this.props.dailyData) {
+      const valuesStateArray = Object.values(this.props.dailyData);
 
-    const valuesStateArray = Object.values(value);
+      this.setState({
+        valuesArray: valuesStateArray,
+        loading: false
+      });
 
+      this.chartReference && this.chartReference.chartInstance.update();
+    }
+  }
+
+  componentDidMount() {
     this.setState({
-      valuesArray: valuesStateArray
+      loading: true
     });
-
-    this.chartReference && this.chartReference.chartInstance.update();
   }
 
   render() {
