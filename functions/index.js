@@ -21,3 +21,30 @@ exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
 
   return true;
 });
+
+exports.getDataBrasilIo = functions.pubsub
+  .schedule("every 10 minutes")
+  .onRun(async () => {
+    const response = await admin
+      .database()
+      .ref(`brasilio/next`)
+      .once("value");
+    const next = response.val()
+      ? response.val()
+      : "https://brasil.io/api/dataset/covid19/caso/data?format=json&page=1";
+    const page = next.split("page=")[1];
+
+    axios.get(next).then(function(result) {
+      admin
+        .database()
+        .ref(`brasilio/${page}`)
+        .set(result.data);
+
+      admin
+        .database()
+        .ref(`brasilio/next`)
+        .set(result.data.next);
+    });
+
+    return true;
+  });
