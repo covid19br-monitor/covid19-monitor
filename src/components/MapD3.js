@@ -82,8 +82,8 @@ class Map extends React.Component {
   };
 
   _build = () => {
-    this.width = this.mapWrapper.current.offsetWidth;
-    this.height = this.mapWrapper.current.parentNode.offsetHeight;
+    this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
+    this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
 
     this.svg.attr("width", this.width).attr("height", this.height);
 
@@ -224,11 +224,11 @@ class Map extends React.Component {
       }
     });
 
-    this.width = this.mapWrapper.current.offsetWidth;
-    this.height = this.mapWrapper.current.parentNode.offsetHeight;
+    this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
+    this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
 
     this.svg = d3
-      .select(this.mapWrapper.current)
+      .select(this.mapWrapper.current && this.mapWrapper.current)
       .append("svg")
       .attr("width", this.width)
       .attr("height", this.height);
