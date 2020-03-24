@@ -94,7 +94,7 @@ class Map extends React.Component {
     this.path = null;
     this.state = {
       tooltipPos: {top: 0, left: 0},
-      loadingMap: true,
+      loadingMap: false,
     };
   }
 
@@ -266,19 +266,12 @@ class Map extends React.Component {
             that._mouseleave(d);
           })
           .on("mousemove", this._mousemove);
+    
+    this.setState({loadingMap: false});
   };
 
-  _init = async () => {
-    const data = this.props.data
-
-    Object.keys(acronymous).forEach((key) => {
-      this.statesData[key] = {
-        id: key,
-        name: acronymous[key],
-        confirmed: null,
-        deaths: null,
-      }
-    })
+  _loadData = () => {
+    const data = this.props.data;
 
     if (data) {
       data.results.forEach((city) => {
@@ -297,19 +290,30 @@ class Map extends React.Component {
         }
       });
 
-      this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
-      this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
-
-      this.svg = d3
-        .select(this.mapWrapper.current && this.mapWrapper.current)
-        .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height);
-
       this._build();
-
-      window.addEventListener("resize", this._build);
     }
+  }
+
+  _init = () => {
+    this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
+    this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
+
+    this.svg = d3
+      .select(this.mapWrapper.current && this.mapWrapper.current)
+      .append("svg")
+      .attr("width", this.width)
+      .attr("height", this.height);
+
+    Object.keys(acronymous).forEach((key) => {
+      this.statesData[key] = {
+        id: key,
+        name: acronymous[key],
+        confirmed: null,
+        deaths: null,
+      }
+    });
+    
+    window.addEventListener("resize", this._build);
   }
 
   _randomInt = (min, max) => {
@@ -354,15 +358,17 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.loadingMap) {
-      this._init();
+    this._init();
+    if (this.props.data) {
+      this._loadData();
+    } else {
+      this.setState({loadingMap: true});
     }
   }
 
   componentDidUpdate() {
     if (this.state.loadingMap) {
-      this._init();
-      this.setState({loadingMap: false});
+      this._loadData();
     }
   }
 
