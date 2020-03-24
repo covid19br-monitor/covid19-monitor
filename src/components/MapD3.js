@@ -18,7 +18,7 @@ const ToolTip = styled.div`
   opacity: 0;
 
   &:after {
-    position absolute;
+    position: absolute;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 9px);
@@ -94,7 +94,7 @@ class Map extends React.Component {
     this.path = null;
     this.state = {
       tooltipPos: {top: 0, left: 0},
-      loadingMap: true,
+      loadingMap: false,
     };
   }
 
@@ -266,39 +266,35 @@ class Map extends React.Component {
             that._mouseleave(d);
           })
           .on("mousemove", this._mousemove);
-
+    
     this.setState({loadingMap: false});
   };
 
-  _init = async() => {
-    const response = await fetch('https://brasil.io/api/dataset/covid19/caso/data?format=json');
-    const data = await response.json();
+  _loadData = () => {
+    const data = this.props.data;
 
-    Object.keys(acronymous).forEach((key) => {
-      this.statesData[key] = {
-        id: key,
-        name: acronymous[key],
-        confirmed: null,
-        deaths: null,
-      }
-    })
-
-    data.results.forEach((city) => {
-      const cityIndex = city.city ? city.city.toUpperCase() : '';
-      const stateIndex = city.state.toUpperCase();
-      
-      if (city.is_last) {
-        if (city.place_type === 'city' && city.city !== '') {
-          this.citiesData[cityIndex] = city;
-        }
+    if (data) {
+      data.results.forEach((city) => {
+        const cityIndex = city.city ? city.city.toUpperCase() : '';
+        const stateIndex = city.state.toUpperCase();
         
-        if (city.place_type === 'state') {
-          this.statesData[stateIndex].confirmed = city.confirmed;
-          this.statesData[stateIndex].deaths = city.deaths;
+        if (city.is_last) {
+          if (city.place_type === 'city' && city.city !== '') {
+            this.citiesData[cityIndex] = city;
+          }
+          
+          if (city.place_type === 'state') {
+            this.statesData[stateIndex].confirmed = city.confirmed;
+            this.statesData[stateIndex].deaths = city.deaths;
+          }
         }
-      }
-    });
+      });
 
+      this._build();
+    }
+  }
+
+  _init = () => {
     this.width = this.mapWrapper.current && this.mapWrapper.current.offsetWidth;
     this.height = this.mapWrapper.current && this.mapWrapper.current.parentNode.offsetHeight;
 
@@ -308,8 +304,15 @@ class Map extends React.Component {
       .attr("width", this.width)
       .attr("height", this.height);
 
-    this._build();
-
+    Object.keys(acronymous).forEach((key) => {
+      this.statesData[key] = {
+        id: key,
+        name: acronymous[key],
+        confirmed: null,
+        deaths: null,
+      }
+    });
+    
     window.addEventListener("resize", this._build);
   }
 
@@ -356,6 +359,17 @@ class Map extends React.Component {
 
   componentDidMount() {
     this._init();
+    if (this.props.data) {
+      this._loadData();
+    } else {
+      this.setState({loadingMap: true});
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.loadingMap) {
+      this._loadData();
+    }
   }
 
   render() {

@@ -31,7 +31,8 @@ export default function Stats({ url }) {
     <>
       <p>
         <small>
-          Última atualização: <em>{formatDate(new Date(stats.lastUpdate))}</em>
+          Fonte: <a href="https://covid19.mathdro.id/api" target="blank">covid19.mathdro.id</a>
+          <br />Última atualização: <em>{formatDate(new Date(stats.lastUpdate))}</em>
         </small>
       </p>
       <StatGrid>
