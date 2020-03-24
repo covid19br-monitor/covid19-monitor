@@ -1,6 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MapChart from "../src/components/MapChart";
 import {
   ConfirmedByProvinceChart,
@@ -11,8 +11,6 @@ import NewCasesChart from "../src/components/NewCasesChart";
 import { GlobalStyle } from "../src/components/GlobalStyle";
 import DataPanel from "../src/components/DataPanel";
 import Nav from "../src/components/Nav";
-
-
 
 export default function App() {
   const [data, setData] = useState('');
