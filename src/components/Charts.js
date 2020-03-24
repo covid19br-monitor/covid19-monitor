@@ -1,7 +1,6 @@
 import React from "react";
 import { HorizontalBar, Doughnut } from "react-chartjs-2";
 import styled from "styled-components";
-import useStats from "../hooks/useStats";
 import acronymous from "../db/acronymous";
 
 const ChartSection = styled.div`
@@ -25,10 +24,8 @@ const ChartPieSection = styled.div`
   }
 `;
 
-export function ConfirmedByProvinceChart() {
-  const { stats } = useStats(
-    "https://brasil.io/api/dataset/covid19/caso/data?format=json"
-  );
+export function ConfirmedByProvinceChart(props) {
+  const stats = props.data;
   const statesData = {};
   let confirmedByProvince;
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
+import useStats from "./hooks/useStats";
 import MapChart from "../src/components/MapChart";
 import {
   ConfirmedByProvinceChart,
@@ -12,17 +13,21 @@ import DataPanel from "../src/components/DataPanel";
 import Nav from "../src/components/Nav";
 
 export default function App() {
+  const { stats } = useStats(
+    "https://brasil.io/api/dataset/covid19/caso/data?format=json"
+  );
+  
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle  />
       <main>
-        <DataPanel />
+        <DataPanel data={stats} />
         <section>
           <Nav />
           <Router>
-            <MapChart path="/" />
+            <MapChart data={stats} path="/" />
             <ConfirmedChart path="/contagios" />
-            <ConfirmedByProvinceChart path="/contagios-provincia" />
+            <ConfirmedByProvinceChart data={stats} path="/contagios-provincia" />
             <DetailsChart path="/detalles" />
             <NewCasesChart path="/novos-casos" />
           </Router>

@@ -4,7 +4,7 @@ import Brazil from "../components/Brazil";
 import Heading from "../components/Heading";
 import Footer from "../components/Footer";
 
-export default function DataPanel() {
+export default function DataPanel(props) {
   return (
     <section>
       <Heading />
@@ -15,7 +15,7 @@ export default function DataPanel() {
             🇧🇷
           </span>
         </h2>
-        <Brazil />
+        <Brazil data={props.data} />
       </div>
       <div>
         <h2>Mundo</h2>

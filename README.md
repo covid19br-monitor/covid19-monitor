@@ -7,8 +7,8 @@ Project inspired by https://www.monitorec.app
 
 TODO
 
-- [ ] Add API for data in brasil, brasil.io
-- [ ] Add graph for new cases each day
+- [x] Add API for data in brasil, brasil.io
+- [x] Add graph for new cases each day
 - [x] Fix responsive map window
 - [ ] Add charts
 - [ ] Add interactivity
