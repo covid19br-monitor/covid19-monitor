@@ -22,38 +22,36 @@ function formatDateApi(date) {
   return `${finalMonth}-${finalDay}-${finalYear}`;
 }
 
-exports.getDaily = functions.pubsub
-  .schedule("every 24 hours")
-  .onRun(context => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayDate = formatDateApi(yesterday);
-    const todayDate = formatDateApi(new Date());
+exports.getDaily = functions.pubsub.schedule("every 2 hours").onRun(context => {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayDate = formatDateApi(yesterday);
+  const todayDate = formatDateApi(new Date());
 
-    axios
-      .get(`https://covid19.mathdro.id/api/daily/${yesterdayDate}`)
-      .then(function(result) {
-        const brasilData = result.data.filter(
-          country => country.countryRegion === "Brazil"
-        )[0];
+  axios
+    .get(`https://covid19.mathdro.id/api/daily/${yesterdayDate}`)
+    .then(function(result) {
+      const brasilData = result.data.filter(
+        country => country.countryRegion === "Brazil"
+      )[0];
 
-        admin
-          .database()
-          .ref(`daily/${yesterdayDate}`)
-          .set(parseInt(brasilData.confirmed, 10));
-      });
+      admin
+        .database()
+        .ref(`daily/${yesterdayDate}`)
+        .set(parseInt(brasilData.confirmed, 10));
+    });
 
-    axios
-      .get(`https://covid19.mathdro.id/api/countries/brazil`)
-      .then(function(result) {
-        admin
-          .database()
-          .ref(`daily/${todayDate}`)
-          .set(result.data.confirmed.value);
-      });
+  axios
+    .get(`https://covid19.mathdro.id/api/countries/brazil`)
+    .then(function(result) {
+      admin
+        .database()
+        .ref(`daily/${todayDate}`)
+        .set(result.data.confirmed.value);
+    });
 
-    return true;
-  });
+  return true;
+});
 
 exports.getData = functions.pubsub.schedule("every 1 hours").onRun(context => {
   axios
