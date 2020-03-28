@@ -5,6 +5,7 @@ import MapChart from "../src/components/MapChart";
 import { ConfirmedByProvinceChart } from "../src/components/Charts";
 import ConfirmedChart from "../src/components/ConfirmedChart";
 import NewCasesChart from "../src/components/NewCasesChart";
+import ProjectionsChart from "../src/components/ProjectionsChart";
 import { GlobalStyle } from "../src/components/GlobalStyle";
 import DataPanel from "../src/components/DataPanel";
 import Nav from "../src/components/Nav";
@@ -49,6 +50,7 @@ export default function App() {
             <ConfirmedChart dailyData={dailyData} path="/contagios" />
             <ConfirmedByProvinceChart data={data} path="/contagios-provincia" />
             <NewCasesChart dailyData={dailyData} path="/novos-casos" />
+            <ProjectionsChart dailyData={dailyData} path="/projecoes" />
           </Router>
         </section>
       </main>
