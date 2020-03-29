@@ -9,12 +9,22 @@ const ChartSection = styled.div`
   width: 100%;
   height: 100%;
   padding: 0;
-  position: relative;
+  padding: 0 30px;
+  box-sizing: border-box;
+
+  .chart-container {
+    position: relative;
+  }
+
+  p {
+    font-size: 0.7em;
+    margin: 1em 0;
+  }
 
   .legend {
     display: flex;
-    margin-bottom: 2em;
-    padding-left: 50px;
+    margin-bottom: 0;
+    padding-left: 0;
 
     p {
       margin-right: 2em;
@@ -23,9 +33,9 @@ const ChartSection = styled.div`
       span {
         display: inline-block;
         vertical-align: middle;
-        width: 1em;
+        width: 2em;
         height: 1em;
-        margin-right: 1em;
+        margin-right: 0.5em;
         background-color: currentColor;
       }
     }
@@ -33,8 +43,8 @@ const ChartSection = styled.div`
 `;
 
 const ToolTip = styled.div`
-  position: fixed;
-  transform: translate(-50%, -120%);
+  position: absolute;
+  transform: translate(-50%, -150%);
   padding: 10px;
   background: rgba(000,000,000,0.9);
   color: #fff;
@@ -91,32 +101,27 @@ class NewCasesChart extends React.Component {
     }
   }
 
-  _mousemove = () => {
-    const x = d3.event.pageX - this.chartContainer.current.getBoundingClientRect().left;
-    const y = d3.event.pageY;
-    this.setState({tooltipPos: {
-      opacity: 1,
-      left: `${x}px`,
-      top: `${y}px`,
-    }})
-  }
-
   _mouseleave = d => {
     this.setState({tooltipPos: {
       opacity: 0,
     }})
   };
 
-  _mouseover = d => {
-    const date = formatDateDisplay(new Date(d.date));
-    this.tooltip.current.innerHTML = `${date}
-    <br />${parseInt(d.value)}`;
-  };
-
   _init = () => {
     this.width = this.chartContainer.current && this.chartContainer.current.offsetWidth;
-    this.height = this.width * 0.7;
-    const margin = {top: 20, right: 50, bottom: 100, left: 50};
+    this.height = this.width > 480 ? this.width * 0.7 : this.width;
+    console.log(this.height);
+    const margin = {top: 20, right: 30, bottom: 100, left: 50};
+
+    // const dataOk = projections
+    //   .filter((d) => this.props.dailyData[formatDateApi(new Date(d.date))])
+    //   .map(d => ({
+    //     date: d.date,
+    //     cases: this.props.dailyData[formatDateApi(new Date(d.date))],
+    //     projections: parseFloat(d['95%']),
+    //   }));
+
+    // console.log(dataOk);
 
     const dataCases = Object.entries(this.props.dailyData).map(d => ({ date: d[0], value: d[1] }));
     const dates = dataCases.map(d => d.date);
@@ -144,7 +149,7 @@ class NewCasesChart extends React.Component {
       .call(
         d3.axisBottom(x)
         .tickFormat(d3.utcFormat("%d/%m"))
-        // .ticks(dates.length)
+        // .ticks(this.width / 80)
       );
 
     const yAxis = g => g
@@ -170,7 +175,7 @@ class NewCasesChart extends React.Component {
 
     const colors = ['red', 'yellow'];
 
-    [dataProjections, dataCases].forEach((data, index) => {
+    [dataCases, dataProjections].forEach((data, index) => {
       this.svg.append('path')
         .datum(data)
         .attr("fill", "none")
@@ -181,16 +186,40 @@ class NewCasesChart extends React.Component {
         .attr("d", line)
       
       this.svg.append("g")
-          .attr("stroke", "white")
+          .attr("stroke", "none")
           .attr("fill", colors[index])
         .selectAll("circle")
         .data(data)
         .join("circle")
           .attr("transform", d => `translate(${x(new Date(d.date))},${y(d.value)})`)
-          .attr("r", 3)
-          .on("mouseover", this._mouseover)
-          .on("mouseleave", this._mouseleave)
-          .on("mousemove", this._mousemove);
+          .attr("r", this.width * 0.005);
+
+      const rectWidth = this.width > 480 ? this.width / data.length : 10;
+
+      this.svg.append('g')
+        .selectAll('rect')
+        .data(data)
+        .join("rect")
+        .attr('x', d => x(new Date(d.date)) - rectWidth / 2)
+        .attr('y', 0)
+        .attr('width', rectWidth)
+        .attr('height', d => y(d.value))
+        .attr('stroke', 'none')
+        .attr('fill', 'transparent')
+        .on("mouseover", d => {
+          const posX = x(new Date(d.date));
+          const posY = y(d.value);
+          this.setState({tooltipPos: {
+            opacity: 1,
+            left: `${posX}px`,
+            top: `${posY}px`,
+          }});
+
+          const date = formatDateDisplay(new Date(d.date));
+          this.tooltip.current.innerHTML = `${date}
+          <br />${parseInt(d.value)}`;
+        })
+        .on("mouseleave", this._mouseleave)
     });
 
     this.setState({loading: false});
@@ -199,12 +228,17 @@ class NewCasesChart extends React.Component {
   render() {
     return (
       <>
-        <ChartSection ref={this.chartContainer}>
+        <ChartSection>
+          <h3>Projeção de casos reais</h3>
+          <p>Como nem todos os infectados são testados, estimamos o número real de infectados a partir do numero de mortos, usando o algoritmo de simulaçao descrito nesse <a href="https://cmmid.github.io/topics/covid19/current-patterns-transmission/cases-from-deaths.html" target="_blanl">paper</a>.</p>
+          <p>O modelo assume taxa de infecção estável, não leva em conta medidas de intervenção como quarentena em massa que reduziriam essa taxa.</p>
           <div className="legend">
             <p><span style={{color: 'red'}}></span> Projeção de casos reais</p>
             <p><span style={{color: 'yellow'}}></span> Casos confirmados</p>
           </div>
-          <ToolTip ref={this.tooltip} style={this.state.tooltipPos} />
+          <div className="chart-container" ref={this.chartContainer}>
+            <ToolTip ref={this.tooltip} style={this.state.tooltipPos} />
+          </div>
         </ChartSection>
       </>
     );

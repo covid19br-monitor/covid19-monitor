@@ -61,6 +61,9 @@ export default function Nav() {
       <Link to="novos-casos" getProps={isActive}>
         Casos
       </Link>
+      <Link to="projecoes" getProps={isActive}>
+        Projeções
+      </Link>
     </Navigation>
   );
 }
