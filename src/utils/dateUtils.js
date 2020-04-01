@@ -16,6 +16,15 @@ export function formatDateApi(date) {
   return `${finalMonth}-${finalDay}-${finalYear}`;
 }
 
+export function formatDate(d) {
+  const date = new Date(d);
+  const finalDay = getDay(date);
+  const finalMonth = getMonth(date);
+  const finalYear = date.getFullYear();
+
+  return `${finalYear}-${finalMonth}-${finalDay}`;
+}
+
 export function formatDateDisplay(date) {
   const finalDay = getDay(date);
   const finalMonth = getMonth(date);

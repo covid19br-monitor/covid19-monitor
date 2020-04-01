@@ -28,6 +28,12 @@ const Navigation = styled.nav`
     transition: 280ms background-color ease-in-out;
     border-radius: 2px;
 
+    @media (max-width: 480px) {
+      font-size: 0.6em;
+      margin-right: 0.2rem;
+      padding: 0rem 0.3rem;
+    }
+
     :hover {
       background-color: var(--color-secondary);
       color: var(--color-background);

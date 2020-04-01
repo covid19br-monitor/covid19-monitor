@@ -13,6 +13,7 @@ import Nav from "../src/components/Nav";
 export default function App() {
   const [data, setData] = useState("");
   const [dailyData, setdailyData] = useState("");
+  const [projectionData, setProjectionData] = useState("");
 
   async function getData() {
     const response = await fetch(
@@ -30,12 +31,24 @@ export default function App() {
     setdailyData(data);
   }
 
+  async function getProjectionData() {
+    const response = await fetch(
+      `https://api.myjson.com/bins/1ddqtw`
+    );
+    const data = await response.json();
+    setProjectionData(data);
+  }
+
   if (!data) {
     getData();
   }
 
   if (!dailyData) {
     getDailyData();
+  }
+
+  if (!projectionData) {
+    getProjectionData();
   }
 
   return (
@@ -50,7 +63,7 @@ export default function App() {
             <ConfirmedChart dailyData={dailyData} path="/contagios" />
             <ConfirmedByProvinceChart data={data} path="/contagios-provincia" />
             <NewCasesChart dailyData={dailyData} path="/novos-casos" />
-            <ProjectionsChart dailyData={dailyData} path="/projecoes" />
+            <ProjectionsChart dailyData={dailyData} projectionData={projectionData} path="/projecoes" />
           </Router>
         </section>
       </main>
