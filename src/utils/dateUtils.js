@@ -8,7 +8,7 @@ function getMonth(date) {
   return month.length === 1 ? "0" + month : month;
 }
 
-function formatDateApi(date) {
+export function formatDateApi(date) {
   const finalDay = getDay(date);
   const finalMonth = getMonth(date);
   const finalYear = date.getFullYear();
@@ -16,7 +16,16 @@ function formatDateApi(date) {
   return `${finalMonth}-${finalDay}-${finalYear}`;
 }
 
-function formatDateDisplay(date) {
+export function formatDate(d) {
+  const date = new Date(d);
+  const finalDay = getDay(date);
+  const finalMonth = getMonth(date);
+  const finalYear = date.getFullYear();
+
+  return `${finalYear}-${finalMonth}-${finalDay}`;
+}
+
+export function formatDateDisplay(date) {
   const finalDay = getDay(date);
   const finalMonth = getMonth(date);
 

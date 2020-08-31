@@ -8,13 +8,8 @@ export default function DataPanel(props) {
   return (
     <section>
       <Heading />
-      <div>
-        <h2>
-          Brasil{" "}
-          <span role="img" aria-label="Brazil Flag">
-            🇧🇷
-          </span>
-        </h2>
+      <div className="brazilStats">
+        <h2>Brasil</h2>
         <Brazil data={props.data} />
       </div>
       <div>

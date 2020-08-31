@@ -4,10 +4,6 @@ export const StatGrid = styled.section`
   display: flex;
   flex-wrap: wrap;
   margin-top: 1em;
-
-  @media (max-width: 960px) {
-    flex-direction: column;
-  }
 `;
 
 export const StatBlock = styled.article`
@@ -28,11 +24,10 @@ export const StatBlock = styled.article`
     font-size: 1.4rem;
     flex: 2;
     font-weight: 900;
-  }
 
-  @media (max-width: 960px) {
-    margin: 0.5rem 0rem;
-    text-align: center;
+    @media (max-width: 480px) {
+      font-size: 1rem;
+    }
   }
 `;
 
